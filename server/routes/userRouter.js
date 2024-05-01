@@ -1,7 +1,7 @@
 const express = require('express'); //imports the Express framework module. It allows us to create an Express application.
 const userRouter = express.Router(); //creates an instance of the Express router.// This is the route handler for the GET /users endpoint.
-//importing mongoose
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); //importing mongoose
+const bcrypt = require('bcrypt'); //bcrypt is a library for hashing and salting passwords.
 
 //import models
 const userRegModel = require('../models/userRegModel');
@@ -10,8 +10,7 @@ const loginModel = require('../models/LoginModel');
 
 
 
-// ------------------------creating routes and handling requests----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+// creating routes and handling requests
 
 
 //-------------------------user registration-------------------------
@@ -35,14 +34,22 @@ userRouter.post('/adduser', async (req, res) => { //posting data to the database
             return res.status(201).json({ success: false, error: true, message: "phone number already exists" });
         }
 
-        // ----------------------
+        //condition3 - email already exists
+        const oldEmail = await loginModel.findOne({ email: req.body.email });
+        if (oldEmail) {
+            return res.status(201).json({ success: false, error: true, message: "email already exists" });
+        }
+
+        // --------------------------------------
 
         //post data to db - if all conditions are false ^ - ie;new user.
         //Using 2 tables to store data, one for user login and another for user registration.
 
-        //table1-login
-        let log = { username: req.body.username, password: req.body.password, role: 1 }; //getting data from the request body to the database. // log is a object containing user login details.
 
+        const hashedPassword = await bcrypt.hash(req.body.password, 12); //hashing means converting a plain text password into a hashed string.
+
+        //table1-login
+        let log = { username: req.body.username, password: hashedPassword, role: 1 }; //getting data from the request body to the database. // log is a object containing user login details.
         const logData = await loginModel(log).save();//save data to login db.//DB loginModel is called and create a new document with specified data - which is the log object. //logData - variable to store the result of the save() method.
 
         //table2-reg

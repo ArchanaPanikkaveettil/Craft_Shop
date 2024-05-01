@@ -3,13 +3,14 @@
 const express = require('express'); // Import the Express library/framework
 // const bodyParser = require('body-parser');
 const mongoose = require('mongoose')// Import the Mongoose library
-// Import route files
-const userRouter = require('./routes/userRouter');
-const shopRouter = require('./routes/shopRouter');
-
 
 // ---Create an Express application---
 const app = express();
+
+// Import route files
+const userRouter = require('./routes/userRouter');
+const shopRouter = require('./routes/shopRouter');
+const loginRouter = require('./routes/loginRouter');
 
 
 //----- Use middleware to parse incoming requests------
@@ -42,6 +43,7 @@ app.use((req, res, next) => {
 
 app.use('/user', userRouter);
 app.use('/shop', shopRouter);
+app.use('/login', loginRouter);
 
 
 

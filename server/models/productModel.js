@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema({
     
-    shop_id: { type: schema.Types.ObjectId, ref: "login_tb" },
+    shop_id: { type: mongoose.Schema.Types.ObjectId, ref: 'login_tb'},
     productname: { type: String, required: true },
     productprice: { type: String, required: true },
     productdescription: { type: String, required: true },
