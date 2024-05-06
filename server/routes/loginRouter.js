@@ -9,7 +9,7 @@ loginRouter.post('/', async (req, res) => {
 
     try {
 
-        const user = await loginModel.findOne({ username: req.body.username, password: req.body.password });
+        const user = await loginModel.findOne({ username: req.body.username});
         console.log(user);
 
         if (!user) { //if not registered

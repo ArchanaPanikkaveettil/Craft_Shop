@@ -1,0 +1,97 @@
+.navbar {
+  background-color: #7ABA78;
+  height: 110px;
+  font-family: "Aclonica", sans-serif;
+  /* font-weight: 400; */
+  font-style: normal;
+}
+
+
+#brandname {
+  color: white;
+  position: relative;
+  left: 30px;
+  top: 5px;
+}
+
+#navbarNav {
+  font-size: 16px;
+  margin-left: 450px;
+}
+
+.nav-link {
+  color: white
+}
+
+.nav-link:hover {
+
+  color: #0A6847;
+  position: relative;
+  /* font-size: 23px; */
+  transition: all ease .2s;
+}
+
+
+
+.nav-item {
+  padding-right: 60px;
+}
+
+#dropdownMenuLink {
+
+  position: relative;
+  text-decoration: none;
+  margin-right: 60px;
+  font-size: 16px;
+  /* font-weight: 1000; */
+  top: 2px;
+  color: white
+}
+
+#dropdownMenuLink:hover {
+  color: #0A6847;
+  transition: all ease .2s;
+
+
+}
+
+#dropdownmenu {
+  border-radius: 20px;
+  text-align: center;
+}
+
+.dropdown-item {
+  font-size: 14px;
+  color: #0A6847;
+}
+
+.dropdown-item:hover {
+  background-color: #7aba78b5;
+  color: rgba(0, 0, 0, 0.661);
+  border-radius: 90px;
+  transition: all ease .2s;
+
+}
+
+/* #searchbar{
+  margin-left: 650px;
+  margin-top: 13px;
+} */
+
+#loginbutton {
+  position: relative;
+  /* bottom: 10px; */
+  left: 50px;
+  border-radius: 90px;
+  width: 150px;
+  height: 40px;
+  font-size: 17px;
+  color: #0A6847;
+}
+
+#loginbutton:hover {
+  background-color: #7ABA78;
+  color: rgba(0, 0, 0, 0.856);
+  transition: all ease .2s;
+}
+
