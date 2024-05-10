@@ -1,0 +1,51 @@
+#categorybody {
+    /* background-color: #eee2afb7; */
+    padding-top: 100px;
+    padding-bottom: 100px;
+    padding-left: 100px;
+    padding-right: 100px;
+    height: 600px;
+}
+
+#eachcard {
+    /* border-radius: 100px; */
+    border-color: white;
+    margin-bottom: 100px;
+   
+    /* to hide the overflow of the image while hovering */
+    overflow: hidden;
+    height: 350px;
+    text-align: center;
+
+
+}
+#subcategoryimgdiv {
+    height: 350px;
+    position: relative;
+    overflow: hidden;
+    background-color: #7ABA78;
+}
+
+
+#subcategoryimg {
+    /* border-radius: 90px; */
+    border-top-right-radius: 50%;
+    height: 100%;
+    transition: all 0.3s ease-in-out;
+
+}
+
+#subcategoryimg:hover {
+    transform: scale(1.1);
+    /* Scale up the image slightly on hover */
+}
+
+#subcategoryname{
+    color: white;
+    position: relative;
+    bottom: 60px;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0px 4px 3px black;
+}
+

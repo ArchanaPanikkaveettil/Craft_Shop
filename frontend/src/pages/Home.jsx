@@ -1,12 +1,53 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios' //npm i axios
+import { Link, useNavigate } from 'react-router-dom'
+
 import '../styles/home.css'
 
 import Navbar from '../components/Navbar'
 import Carousel from '../components/Carousel'
-// import Button from '../components/Button'
+
 
 
 export default function Home() {
+
+  const [categorylist, Setcategorylist] = useState([]);
+
+  useEffect(() => {
+
+    axios.get('http://localhost:3000/shop/productcategories').then(res => {
+      console.log(res.data);
+      Setcategorylist(res.data.Categories);
+
+    })
+
+      .catch(err => {
+        console.log('Error fetching categories:', err);
+      })
+
+  }, []);
+
+  console.log(categorylist);
+
+
+  //function
+  // const navigate = useNavigate();
+  // const category = () => {
+
+  //   console.log('Button clicked!');
+  //   navigate('/categories/');
+
+
+  // }
+
+
+
+
+
+
+
+
+
   return (
     <>
       <div id='homepage'>
@@ -17,46 +58,56 @@ export default function Home() {
         <div id='carouselContent'>
           <h2 id='slogan'>Turning Ideas Into <br />Artistic Masterpieces </h2><br />
           <p id='categorydes'> Empower your creativity with our extensive range of quality craft tools,enabling you to refine <br />  your ideas into intricate and captivating artistic expressions, one tool at a time </p><br />
-          <button type="button" class="btn" id='learnmore'>Learn More</button>
+          <button type="button" class="btn" id='learnmore'
+          >Learn More</button>
         </div>
 
+        {/* ---------------------------------- */}
 
 
+        <div class="row" id='categorylist'>
 
+          {categorylist.map((item) => (
 
-        <div class="row" id='categoryList'>
+            <div class="col-sm-4" id="carditems">
 
-          <div class="col-sm-4">
+              <h3 class="card-title" id='cardtitle'>{item.categoryname}</h3>
+              <p class="card-text" id='categorydes'>{item.categorydescription}</p>
+              <Link to={`/category/${item._id}`}>
+              <button class="btn" id='checkout' >Check Out</button>
+              </Link>
+            </div>
+            
+          ))}
 
-            <h3 class="card-title" id='cardtitle'>Catgory tiltle</h3>
-            <p class="card-text" id='categorydes'>Category description --- With supporting text below as a natural lead-in to additional content.</p>
-            <button class="btn" id='checkout'>Check Out</button>
+        </div>
 
-          </div>
+        {/* --------------------- */}
 
-          <div class="col-sm-4">
-
-            <h3 class="card-title" id='cardtitle'>Catgory tiltle</h3>
-            <p class="card-text" id='categorydes'>Category description --- With supporting text below as a natural lead-in to additional content.</p>
-            <button class="btn" id='checkout'>Check Out</button>
-
-          </div>
-
-          <div class="col-sm-4">
-
-            <h3 class="card-title" id='cardtitle'>Catgory tiltle</h3>
-            <p class="card-text" id='categorydes'>Category description --- With supporting text below as a natural lead-in to additional content.</p>
-            <button class="btn" id='checkout'>Check Out</button>
-
-          </div>
-
-
-
+        <div id='parallaxcontent1'>
 
         </div>
 
 
+        {/* --------------------- */}
 
+        <div id='homecontent4'>
+
+          <img src='/images/artist2.jpg' alt='artist1' id='artist1'></img>
+          <h1 id='divtitle'>Discover Your<br /> Crafting Oasis Here :) <br />Supplies, Tools, Inspiration</h1>
+          <h1 id='divtitle2'>  Await!</h1>
+          <p id='divdescription'>Explore our curated collection of premium craft supplies, tools,<br />and materials, carefully selected to inspire your creativity <br /> and empower your crafting journey. From beginner essentials to <br /> advanced specialties, find everything you need to bring your<br />  artistic visions to life with passion and precision.</p>
+
+        </div>
+
+        {/* --------------------- */}
+
+        <div id='parallaxcontent2'>
+
+        </div>
+
+
+        {/* --------------------- */}
 
 
 
@@ -64,10 +115,6 @@ export default function Home() {
 
 
       </div>
-
-
-
-
     </>
   )
 }

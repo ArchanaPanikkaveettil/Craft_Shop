@@ -5,17 +5,23 @@ const mongoose = require('mongoose');
 //models
 const productModel = require('../models/productModel');
 const CategoryModel = require('../models/CategoryModel');
+const SubCategoryModel = require('../models/SubCategoryModel');
 
 
 //routes
 
+
+
+///////////////////
+// product routes
+///////////////////
 //---------------------addproducts------------------------
 
 shopRouter.post('/addproduct', async (req, res) => {
 
     try {
 
-        let product = { shop_id: new mongoose.Types.ObjectId(req.body.shop_id), productname: req.body.productname, productprice: req.body.productprice, productdescription: req.body.productdescription, productcategory: req.body.productcategory, productimage: req.body.productimage };
+        let product = { shop_id: new mongoose.Types.ObjectId(req.body.shop_id), productname: req.body.productname, productprice: req.body.productprice, productdescription: req.body.productdescription, productcategory: req.body.productcategory, subcategory: req.body.subcategory, productimage: req.body.productimage };
         console.log(product);
         let productData = await productModel(product).save();
 
@@ -136,6 +142,12 @@ shopRouter.delete('/deleteproduct/:id', async (req, res) => {
 
 })
 
+
+
+
+///////////////////
+// category routes
+///////////////////
 // ----------------------------Add a product category--------------------------------------------------
 
 shopRouter.post('/addproductcategory', async (req, res) => {
@@ -269,6 +281,151 @@ shopRouter.delete('/deletecategory/:id', async (req, res) => {
     }
 
 })
+
+
+
+///////////////////
+// sub category routes
+///////////////////
+
+
+// ----------------------------Add a sub category--------------------------------------------------
+
+shopRouter.post('/addsubcategory', async (req, res) => {
+
+    try {
+
+        //duplication check
+        const existingCategory = await SubCategoryModel.findOne({ subcategoryname: req.body.subcategoryname });
+        if (existingCategory) {
+
+            return res.status(200).json({ success: true, error: false, message: "Sub category already exists" });
+        }
+
+        //create new category
+        const Category = { categoryid:req.body.categoryid ,subcategoryname: req.body.subcategoryname, subcategorydes: req.body.subcategorydes, subcategoryimg: req.body.subcategoryimg };
+        const addCategory = await SubCategoryModel(Category).save();
+        console.log(addCategory);
+
+        if (addCategory) {
+
+            return res.status(200).json({ success: true, error: false, message: "Sub category added successfully", CategoryDetails: addCategory });
+        }
+        else {
+            return res.status(500).json({ success: true, error: false, message: "Sub category not added" });
+        }
+
+    } catch (error) {
+
+        return res.status(500).json({ success: false, error: true, message: "Something went wrong in adding product category", error: error });
+    }
+
+})
+
+// ----------------------------View all sub categories--------------------------------------------------
+
+shopRouter.get('/subcategories', async (req, res) => {
+
+    try {
+
+        const allCategories = await SubCategoryModel.find();
+
+        if (allCategories[0]) {
+
+            return res.status(200).json({ success: true, error: false, message: "Sub categories fetched successfully", SubCategories: allCategories });
+        }
+        else {
+            return res.status(500).json({ success: true, error: false, message: "No sub categories found" });
+        }
+
+    } catch (error) {
+        return res.status(500).json({ success: false, error: true, message: "Something went wrong in viewing all Sub categories", error: error });
+    }
+
+})
+
+// ----------------------------View all sub category of specific main category--------------------------------------------------
+
+shopRouter.get('/subcategoryof/:id', async (req, res) => {
+
+    try {
+
+        const subcategories = await SubCategoryModel.find({ categoryid: req.params.id });
+
+        if (subcategories) {
+
+            return res.status(200).json({ success: true, error: false, message: "Sub categories fetched successfully", SubCategories: subcategories });
+        }
+        else {
+            return res.status(500).json({ success: true, error: false, message: "No sub categories found" });
+        }
+
+    } catch (error) {
+        return res.status(500).json({ success: false, error: true, message: "Something went wrong in viewing Sub categories", error: error });
+    }
+
+})
+
+
+
+//-------------------------- Update category --------------------------------------------------------------
+
+
+shopRouter.put('/updatesubcategory/:id', async (req, res) => {
+
+    try {
+
+        const newData = {
+
+            subcategoryname: req.body.subcategoryname,
+            subcategorydes: req.body.subcategorydes,
+            subcategoryimg: req.body.subcategoryimg
+
+        }; console.log(newData);
+
+
+        const updatedCategory = await SubCategoryModel.updateOne({ _id: req.params.id }, { $set: newData });
+        console.log(updatedCategory);
+
+        if (updatedCategory.modifiedCount == 1) {
+
+            return res.status(200).json({ success: true, error: false, message: "Sub category updated successfully", CategoryDetails: newData });
+        }
+        else {
+            return res.status(500).json({ success: true, error: false, message: "No Sub category found" });
+        }
+
+
+    } catch (error) {
+        res.status(500).json({ success: false, error: true, message: "Something went wrong in updating Sub category" });
+    }
+
+})
+
+//-------------------------- Delete category --------------------------------------------------------------
+
+shopRouter.delete('/deletesubcategory/:id', async (req, res) => {
+
+
+    try {
+
+        const deletedCategory = await SubCategoryModel.deleteOne({ _id: req.params.id });
+
+        if (deletedCategory.deletedCount == 1) {
+
+            res.status(200).json({ success: true, error: false, message: "Sub category deleted successfully" });
+        }
+        else {
+
+            return res.status(500).json({ success: true, error: false, message: "No Sub category found" });
+        }
+
+    } catch (error) {
+        res.status(500).json({ success: false, error: true, message: "Something went wrong in deleting Sub category", error: error });
+    }
+
+})
+
 
 
 module.exports = shopRouter;

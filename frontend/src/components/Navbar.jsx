@@ -1,14 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 import '../styles/navbar.css'
 
 
 
 export default function Navbar() {
+
+    
+    const [categorylist, Setcategorylist] = useState([]);
+    console.log(categorylist);
+
+    useEffect(() => {
+
+        axios.get('http://localhost:3000/shop/productcategories').then(res => {
+            console.log(res.data);
+            Setcategorylist(res.data.Categories);
+        })
+
+    }, [])
+
+
     return (
         <>
 
             <div>
-                                                    {/* text color and bg color   -- navbar-dark bg-dark" */}
+                {/* text color and bg color   -- navbar-dark bg-dark" */}
                 <nav class="navbar navbar-expand-lg" >
 
                     {/* <a className="navbar-brand" href="#" >
@@ -28,17 +44,19 @@ export default function Navbar() {
                             </li>
 
 
+
                             <div class="dropdown">
                                 <a class="btn dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown">Categories</a>
+
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" id="dropdownmenu">
-
-                                    <a class="dropdown-item" href="#">Category 1</a>
-                                    <a class="dropdown-item" href="#">Category 2</a>
-                                    <a class="dropdown-item" href="#">Category 3</a>
-
+                                    {categorylist.map((item) => (
+                                        <a class="dropdown-item" href={`/category/${item._id}`}>{item.categoryname}</a>
+                                    ))}
                                 </div>
 
                             </div>
+
+
 
                             <li class="nav-item active">
                                 <a class="nav-link" href="#">Contact</a>
@@ -49,11 +67,11 @@ export default function Navbar() {
                                 <Searchbar />
                             </div> */}
 
-                            
-                            <button type="button" class="btn" id='loginbutton'>Login</button>
-                            
 
-                            
+                            <button type="button" class="btn" id='loginbutton'>Login</button>
+
+
+
                         </ul>
                     </div>
                 </nav>
