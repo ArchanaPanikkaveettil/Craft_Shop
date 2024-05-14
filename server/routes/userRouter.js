@@ -53,7 +53,7 @@ userRouter.post('/adduser', async (req, res) => { //posting data to the database
         const logData = await loginModel(log).save();//save data to login db.//DB loginModel is called and create a new document with specified data - which is the log object. //logData - variable to store the result of the save() method.
 
         //table2-reg
-        let reg = { loginId: logData._id, name: req.body.name, address: req.body.address, phone: req.body.phone, gender: req.body.gender, email: req.body.email };
+        let reg = { loginId: logData._id, name: req.body.name, address: req.body.address, phone: req.body.phone, gender: req.body.gender, email: req.body.email, role: 1 }; //getting data from the request body to the database. // reg is a object containing user registration details.
         const regData = await userRegModel(reg).save();
         console.log(regData);
 

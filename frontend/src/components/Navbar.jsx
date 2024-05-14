@@ -68,7 +68,7 @@ export default function Navbar() {
                             </div> */}
 
 
-                            <button type="button" class="btn" id='loginbutton'>Login</button>
+                            <button type="button" class="btn" id='loginbutton' onClick={() => { window.location.href = '/login' }}>Login</button>
 
 
 
