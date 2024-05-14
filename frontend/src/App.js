@@ -6,6 +6,7 @@ import Carousel from './components/Carousel';
 import Searchbar from './components/Searchbar';
 import Button from './components/Button';
 import SubCategories from './pages/SubCategories';
+import Login from './pages/Login';
 
 function App() {
   return (
@@ -23,7 +24,8 @@ function App() {
           <Route path='/button' element={<Button />} />
 
           <Route path='/category/:id' element={<SubCategories />} />
-          
+          <Route path='/login' element={<Login />} />
+
 
         </Routes>
 
