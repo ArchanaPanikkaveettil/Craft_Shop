@@ -1,8 +1,8 @@
 .navbar {
-  background-color: #7ABA78;
+  background-color: #0F5132;
   height: 110px;
-  font-family: "Aclonica", sans-serif;
-  /* font-weight: 400; */
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: 600;
   font-style: normal;
 }
 
@@ -11,12 +11,14 @@
   color: white;
   position: relative;
   left: 30px;
+  font-size: 30px;
+  font-weight: 700;
   top: 5px;
 }
 
 #navbarNav {
-  font-size: 16px;
-  margin-left: 450px;
+  font-size: 23px;
+  margin-left: 400px;
 }
 
 .nav-link {
@@ -42,7 +44,7 @@
   position: relative;
   text-decoration: none;
   margin-right: 60px;
-  font-size: 16px;
+  font-size: 23px;
   /* font-weight: 1000; */
   top: 2px;
   color: white
@@ -61,7 +63,7 @@
 }
 
 .dropdown-item {
-  font-size: 14px;
+  font-size: 18px;
   color: #0A6847;
 }
 
@@ -84,8 +86,8 @@
   left: 50px;
   border-radius: 90px;
   width: 150px;
-  height: 40px;
-  font-size: 17px;
+  height: 50px;
+  font-size: 23px;
   color: #0A6847;
 }
 

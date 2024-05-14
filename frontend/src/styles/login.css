@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Fira+Sans");
+/* @import url("https://fonts.googleapis.com/css?family=Fira+Sans"); */
 
 #wholebody{
     position: relative;
@@ -12,7 +12,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: "Fira Sans", Helvetica, Arial, sans-serif;
+    font-family: "Josefin Sans", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -107,12 +107,12 @@
                 outline: none;
                 box-shadow: none;
                 display: block;
-                height: 30px;
+                height: 40px;
                 line-height: 30px;
                 padding: 8px 15px;
                 border-bottom: 1px solid #eee;
                 width: 100%;
-                font-size: 12px;
+                font-size: 14px;
 
                 &:last-child {
                     border-bottom: 0;
@@ -133,6 +133,7 @@
             margin: 15px auto;
             padding: 15px 45px;
             width: 100%;
+            
             font-size: 13px;
             font-weight: bold;
             cursor: pointer;

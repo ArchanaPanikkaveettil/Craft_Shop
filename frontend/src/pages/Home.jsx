@@ -57,7 +57,7 @@ export default function Home() {
 
         <div id='carouselContent'>
           <h2 id='slogan'>Turning Ideas Into <br />Artistic Masterpieces </h2><br />
-          <p id='categorydes'> Empower your creativity with our extensive range of quality craft tools,enabling you to refine <br />  your ideas into intricate and captivating artistic expressions, one tool at a time </p><br />
+          <p id='categorydes'> Empower your creativity with our extensive range of quality craft tools, <br/>enabling you to refine your ideas into intricate and captivating <br/>artistic expressions, one tool at a time </p><br />
           <button type="button" class="btn" id='learnmore'
           >Learn More</button>
         </div>
