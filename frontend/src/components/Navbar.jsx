@@ -6,16 +6,20 @@ import '../styles/navbar.css'
 
 export default function Navbar() {
 
-    
+
     const [categorylist, Setcategorylist] = useState([]);
     console.log(categorylist);
 
     useEffect(() => {
 
-        axios.get('http://localhost:3000/shop/productcategories').then(res => {
-            console.log(res.data);
-            Setcategorylist(res.data.Categories);
-        })
+        axios.get('http://localhost:3000/shop/productcategories')
+            .then(res => {
+                console.log(res.data);
+                Setcategorylist(res.data.Categories);
+
+            }).catch((err) => {
+                console.log(err.message);
+            })
 
     }, [])
 
@@ -40,7 +44,7 @@ export default function Navbar() {
 
 
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">Home</a>
+                                <a class="nav-link" href="/">Home</a>
                             </li>
 
 

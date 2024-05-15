@@ -19,7 +19,7 @@ const loginModel = require('../models/LoginModel');
 userRouter.post('/adduser', async (req, res) => { //posting data to the database.
 
     try {
-
+        console.log(req.body);
         // old user check --- avoid duplication --- if anyone of the following conditions is true, the user is not allowed to register.
 
         //condition1 - username already exists
@@ -29,13 +29,14 @@ userRouter.post('/adduser', async (req, res) => { //posting data to the database
         }
 
         //condition2 - phone no already exists 
-        const oldPhone = await loginModel.findOne({ phone: req.body.phone });
+        const oldPhone = await userRegModel.findOne({ phone: req.body.phone });
+        console.log(oldPhone);
         if (oldPhone) {
             return res.status(201).json({ success: false, error: true, message: "phone number already exists" });
         }
 
         //condition3 - email already exists
-        const oldEmail = await loginModel.findOne({ email: req.body.email });
+        const oldEmail = await userRegModel.findOne({ email: req.body.email });
         if (oldEmail) {
             return res.status(201).json({ success: false, error: true, message: "email already exists" });
         }
@@ -64,7 +65,7 @@ userRouter.post('/adduser', async (req, res) => { //posting data to the database
 
     } catch (error) {
 
-        res.status(500).json({ success: false, error: true, message: "something went wrong" });
+        res.status(500).json({ success: false, error: true, message: "something went wrong in backend" });
         console.log(error);
     }
 
