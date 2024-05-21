@@ -17,19 +17,23 @@
     height: 350px;
     text-align: center;
 
-
+    background-color:#0A6847;
 }
 #subcategoryimgdiv {
-    height: 350px;
-    position: relative;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 0.75rem;
+    border-top-right-radius: 150px;
     overflow: hidden;
-    background-color:#0A6847;
+    
 }
 
 
 #subcategoryimg {
     /* border-radius: 90px; */
-    border-top-right-radius: 50%;
     height: 100%;
     transition: all 0.3s ease-in-out;
 
