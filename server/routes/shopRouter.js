@@ -21,7 +21,7 @@ shopRouter.post('/addproduct', async (req, res) => {
 
     try {
 
-        let product = { shop_id: new mongoose.Types.ObjectId(req.body.shop_id), productname: req.body.productname, productprice: req.body.productprice, productdescription: req.body.productdescription, productcategory: req.body.productcategory, subcategory: req.body.subcategory, productimage: req.body.productimage };
+        let product = { shop_id: new mongoose.Types.ObjectId(req.body.shop_id), productname: req.body.productname, productprice: req.body.productprice, productdescription: req.body.productdescription, productcategory: req.body.productcategory, subcategory: req.body.subcategory, productimage: req.body.productimage, productquantity: req.body.productquantity, quantitytype: req.body.quantitytype,  };
         console.log(product);
         let productData = await productModel(product).save();
 
@@ -84,6 +84,33 @@ shopRouter.get('/productdetails/:id', async (req, res) => {
         res.status(500).json({ success: false, error: true, message: "Something went wrong in viewing single product" });
     }
 })
+
+// ------------------------- view all products under specific subcategory ------------------------------------
+
+shopRouter.get('/subcatallproducts/:name', async (req, res) => {
+
+    try {
+
+        const allProducts = await productModel.find({ subcategory: req.params.name }); 
+        console.log(allProducts);
+
+        if (allProducts[0]) {
+            
+            return res.status(200).json({ success: true, error: false, message: "Products fetched successfully", Products: allProducts });
+        }
+        
+        else {
+            res.status(500).json({ success: true, error: false, message: "No Products found" });
+        }
+
+    } catch (error) {
+        res.status(500).json({ success: false, error: true, message: "Something went wrong in viewing products under specific subcategory", error : error });
+    }
+})
+
+
+
+
 
 // ---------------------- Update/Edit Product---------------------------------
 
@@ -259,7 +286,6 @@ shopRouter.put('/updatecategory/:id', async (req, res) => {
 })
 
 //-------------------------- Delete category --------------------------------------------------------------
-
 shopRouter.delete('/deletecategory/:id', async (req, res) => {
 
 
@@ -303,7 +329,7 @@ shopRouter.post('/addsubcategory', async (req, res) => {
         }
 
         //create new category
-        const Category = { categoryid:req.body.categoryid ,subcategoryname: req.body.subcategoryname, subcategorydes: req.body.subcategorydes, subcategoryimg: req.body.subcategoryimg };
+        const Category = { categoryid: req.body.categoryid, subcategoryname: req.body.subcategoryname, subcategorydes: req.body.subcategorydes, subcategoryimg: req.body.subcategoryimg };
         const addCategory = await SubCategoryModel(Category).save();
         console.log(addCategory);
 
@@ -365,7 +391,6 @@ shopRouter.get('/subcategoryof/:id', async (req, res) => {
     }
 
 })
-
 
 
 //-------------------------- Update category --------------------------------------------------------------

@@ -89,7 +89,7 @@
   width: 150px;
   height: 50px;
   font-size: 23px;
-  color: #0A6847;
+  color: hsl(159, 82%, 22%);
 }
 
 #loginbutton:hover {

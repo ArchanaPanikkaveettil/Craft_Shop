@@ -1,0 +1,35 @@
+#admin-home {
+    margin: 0;
+    font-family: "Josefin Sans", sans-serif;
+
+}
+
+#homecontent1 {
+    background-image: url(/public/images/bg3_copy.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100%;
+    background-position: center;
+    /* background-attachment: fixed; */
+    background-color: black;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    /* flex-direction: column */
+}
+
+#adminmotto {
+    color: #0F5132;
+    font-size: 30px;
+    position: relative;
+    left: 300px;
+    bottom: 100px;
+    justify-content: center;
+    /* background-color: aliceblue; */
+    
+}
+
+h2{
+  display: flex;  
+}

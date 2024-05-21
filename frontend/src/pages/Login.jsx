@@ -2,10 +2,15 @@ import React, { useEffect, useState } from 'react'
 import '../styles/login.css'
 import axios from 'axios';
 import Navbar from '../components/Navbar';
-import { useInRouterContext } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Login() {
+
+
+    const navigate = useNavigate();
+
+
 
     //js file of login---
     useEffect(() => {
@@ -48,7 +53,7 @@ export default function Login() {
     }, []);
     //-----js file of login
 
-    // --------------------------------------------------
+    // -----------------------------------sign up form---------------------------------------------------
 
     //store sign in form data
     const [input, setInput] = useState({
@@ -65,7 +70,7 @@ export default function Login() {
     console.log(input);
 
 
-    //uploading values to coressponding keys 
+    //func for uploading values to coressponding keys in input usestate
     const inputChange = (e) => {
 
         const { name, value } = e.target
@@ -73,67 +78,11 @@ export default function Login() {
 
     }
 
-    //adduser-registration
-    const onSignup = () => {
-
-        //validation
-        setFormError(formValidation(input)) //calling formValidation function passing input(sign up form data) as a parameter//sets FormError useState the ouput of formValidation function - ie error message
-
-
-        if (Object.keys(formError).length == 0) { //checks if the formError usestate is empty // ie; no error message
-
-            axios.post('http://localhost:3000/user/adduser', input).then((response) => {
-
-                console.log(response.data);
-                alert(response.data.message);
-
-            }).catch((err) => {
-                console.log(err.message);
-            })
-        }
-    }
-    // ---------------------------------------------
-
-    //login form data
-    const [loginInput, setLoginInput] = useState({
-
-        username: '',
-        password: '',
-
-    })
-    console.log(loginInput);
-
-
-    //uploading values to coressponding keys
-    const loginInputChange = (e) => {
-        const { name, value } = e.target
-        setLoginInput({ ...loginInput, [name]: value })
-    }
-
-    //login
-    const onLogin = () => {
-
-        //validation
-        setLoginError(loginValidation(loginInput)) // calling loginValidation function passing loginInput( login form data) as a parameter//sets FormError useState the ouput of loginValidation function - ie error message
-
-        if (Object.keys(loginError).length == 0) {
-
-            axios.post('http://localhost:3000/login', loginInput).then((response) => {
-
-                console.log(response.data);
-                alert(response.data.message);
-            })
-
-        }
-    }
-    // ---------------------------------------------
-
     //form validation for signup
-
     const [formError, setFormError] = useState({}); //usestate for storing error message
     console.log(formError);
 
-    //function
+
     const formValidation = (data) => {
 
         var error = {} //empty object for collecting validation errors
@@ -189,10 +138,47 @@ export default function Login() {
 
     }
 
-    // ---------------------------------------------
+ 
+    //adduser-registration
+    const onSignup = () => {
+
+        //validation
+        setFormError(formValidation(input)) //calling formValidation function passing input(sign up form data) as a parameter//sets FormError useState the ouput of formValidation function - ie error message
+
+
+        if (Object.keys(formError).length == 0) { //checks if the formError usestate is empty // ie; no error message
+
+            axios.post('http://localhost:3000/user/adduser', input).then((response) => {
+
+                console.log(response.data);
+                alert(response.data.message);
+
+            }).catch((err) => {
+                console.log(err.message);
+            })
+        }
+    }
+
+// ----------------------------------------login form---------------------------------------------------
+
+    //login form data
+    const [loginInput, setLoginInput] = useState({
+
+        username: '',
+        password: '',
+
+    })
+    console.log(loginInput);
+
+
+    //uploading values to coressponding keys
+    const loginInputChange = (e) => {
+        const { name, value } = e.target
+        setLoginInput({ ...loginInput, [name]: value })
+    }
+
 
     //form validation for login 
-
     const [loginError, setLoginError] = useState({});
     console.log(loginError);
 
@@ -224,6 +210,45 @@ export default function Login() {
         return phonePattern.test(phone);
     };
 
+   
+    //login
+    const onLogin = () => {
+
+        //validation
+        setLoginError(loginValidation(loginInput)) // calling loginValidation function passing loginInput( login form data) as a parameter//sets FormError useState the ouput of loginValidation function - ie error message
+
+
+        if (Object.keys(loginError).length == 0) { //if the loginError usestate is empty ie; no error message
+
+            axios.post('http://localhost:3000/login', loginInput).then((response) => {
+
+                console.log('login response', response.data);
+                alert(response.data.message);
+
+                //saving data in session storage - for conditional rendering
+                if (response.data.user.role == 1) { //user
+
+                    sessionStorage.setItem('role', response.data.user.role)
+                    sessionStorage.setItem('username', response.data.user.username)
+                    sessionStorage.setItem('loginId', response.data.user._id)
+
+                    // navigate('/')
+
+                }
+                else if (response.data.user.role == 0) {
+
+                    sessionStorage.setItem('role', response.data.user.role)
+                    sessionStorage.setItem('username', response.data.user.username)
+                    sessionStorage.setItem('loginId', response.data.user._id)
+
+                    navigate('/home')
+                }
+
+            }).catch((error) => {
+                console.log(error.message);
+            })
+        }
+    }
 
     return (
         <>
@@ -247,7 +272,7 @@ export default function Login() {
                             <input type="email" id='email' name='email' class="input" placeholder="Email" onChange={inputChange} style={{ borderColor: formError.email ? 'red' : '', borderWidth: formError.email ? '2px' : '', borderStyle: formError.email ? 'solid' : '', borderRadius: formError.email ? '15px' : '' }} onClick={() => { setFormError({ ...formError, email: "" }) }} />
                             <input type="text" id='phone' name='phone' class="input" placeholder="Phone" onChange={inputChange} style={{ borderColor: formError.phone ? 'red' : '', borderWidth: formError.phone ? '2px' : '', borderStyle: formError.phone ? 'solid' : '', borderRadius: formError.phone ? '15px' : '' }} onClick={() => { setFormError({ ...formError, phone: "" }) }} />
 
-                            <select className="input" id='gender' name='gender' onChange={inputChange} style={{ borderColor: formError.gender ? 'red' : '', borderWidth: formError.gender ? '2px' : '', borderStyle: formError.gender ? 'solid' : '', borderRadius: formError.gender ? '15px' : '' }} onClick={() => { setFormError({ ...formError, gender: "" }) }}>
+                            <select className="input" id='gender' name='gender' onChange={inputChange} style={{ borderColor: formError.gender ? 'red' : '', borderWidth: formError.gender ? '2px' : '', borderStyle: formError.gender ? 'solid' : '', borderRadius: formError.gender ? '15px' : '' }} onClick={() => { setFormError({ ...formError, gender: "" })}} >
                                 <option value="">Select Gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
@@ -298,7 +323,7 @@ export default function Login() {
             {/* Render error container only when there is a password error  */}
 
             {formError.password && (
-                
+
                 <div id="error-container3">
                     <span style={{ color: 'red', fontSize: '15px' }}>{formError.password}</span>
                 </div>

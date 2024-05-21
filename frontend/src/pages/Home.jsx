@@ -30,19 +30,6 @@ export default function Home() {
   console.log(categorylist);
 
 
-  //function
-  // const navigate = useNavigate();
-  // const category = () => {
-
-  //   console.log('Button clicked!');
-  //   navigate('/categories/');
-
-
-  // }
-
-
-
-
 
 
 

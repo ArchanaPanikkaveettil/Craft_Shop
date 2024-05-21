@@ -1,0 +1,43 @@
+
+
+
+
+
+/* --------------------------category list css--------------------------------------------------- */
+
+
+
+/* #productcategories{
+    background-color: rgba(0, 100, 0, 0.432);
+    
+    margin: 0;
+} */
+
+#categoryhead{
+    margin-top: 100px;
+    color: #0F5132;
+    font-size: 40px;
+    font-weight: 750;
+    margin-left: 60px;
+    /* text-align: center; */
+}
+
+#edit_btn,#delete_btn{
+    border: 2px solid #0f5132;
+    border-radius: 90px;
+    color: #0f5132;
+    font-size: 17px;
+    font-weight: 500;
+    margin-left: 20px;
+}
+
+
+#edit_btn:hover, #delete_btn:hover {
+    background-color: rgba(255, 255, 255, 0.559);
+    border-radius: 90px;
+    background-color: #0f5132;
+    color: white;
+    font-size: 17px;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}

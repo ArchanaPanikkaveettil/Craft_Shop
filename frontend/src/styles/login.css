@@ -71,10 +71,12 @@
         &.slide-up .form-title {
             font-size: 1.3em;
             cursor: pointer;
+            margin-left: 25px;
+            
         }
 
         &.slide-up .form-title span {
-            margin-right: 5px;
+            margin-right: 10px;
             opacity: 1;
             visibility: visible;
             transition: all .3s ease;
@@ -84,7 +86,6 @@
         .form-title {
             color: #fff;
             font-size: 1.em;
-            margin-left: 20px;
             /* text-align: center; */
             cursor: pointer;
 
@@ -93,6 +94,7 @@
                 opacity: 0;
                 visibility: hidden;
                 transition: all .3s ease;
+                margin-left:30px ;
                 -webkit-transition: all .3s ease;
             }
         }
@@ -199,6 +201,7 @@
             .form-title {
                 color: #000;
                 font-size: 1.7em;
+                margin-left: 55px;
                 text-align: center;
                 cursor: pointer;
 
@@ -294,7 +297,7 @@
 
         &.slide-up .form-title {
             font-size: 1.3em;
-            margin: 0;
+            margin-left: 70px;
             padding: 0;
             cursor: pointer;
             transition: all .3s ease;
@@ -311,6 +314,8 @@
     }
 }
 
+
+/* ---------------------- form ---------------------------------- */
 #gender {
     cursor: pointer;
     color: rgba(0, 0, 0, 0.601);
