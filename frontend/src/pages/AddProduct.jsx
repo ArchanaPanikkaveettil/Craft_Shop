@@ -83,7 +83,7 @@ export default function AddProduct() {
 
             axios.post('http://localhost:3000/shop/addproduct', productInput).then((res) => {
                 console.log('Product Added Details', res.data);
-
+                alert(res.data.message);
             }).catch((err) => {
                 console.log(err);
             })

@@ -1,24 +1,26 @@
 #categorybody {
-    /* background-color: #eee2afb7; */
-    padding-top: 100px;
+    background-color: #22211f;
+    padding-top: 30px;
     padding-bottom: 100px;
-    padding-left: 100px;
-    padding-right: 100px;
-    height: 600px;
+    padding-left: 40px;
+    padding-right: 40px;
+    height: auto;
+
 }
 
 #eachcard {
-    /* border-radius: 100px; */
-    border-color: white;
-    margin-bottom: 100px;
-   
-    /* to hide the overflow of the image while hovering */
-    overflow: hidden;
-    height: 350px;
-    text-align: center;
 
-    background-color:#0A6847;
+    /* border-color: white; */
+    margin-bottom: 30px;
+    margin-top:70px;
+    height: 400px;
+    width: 310px;
+    text-align: center;
+    background-color: #0F5132;
+    box-shadow: 6px 6px 9px black;
+    border-radius: 15px;
 }
+
 #subcategoryimgdiv {
     position: absolute;
     width: 100%;
@@ -28,15 +30,13 @@
     border-radius: 0.75rem;
     border-top-right-radius: 150px;
     overflow: hidden;
-    
+
 }
 
 
 #subcategoryimg {
-    /* border-radius: 90px; */
     height: 100%;
     transition: all 0.3s ease-in-out;
-
 }
 
 #subcategoryimg:hover {
@@ -44,12 +44,29 @@
     /* Scale up the image slightly on hover */
 }
 
-#subcategoryname{
+#subcategoryname {
     color: white;
     position: relative;
-    bottom: 60px;
     font-weight: 700;
-    color: white;
     text-shadow: 0px 4px 3px black;
+    top: 280px;
+
 }
 
+#buttons{
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+
+
+#delete_butn, #edit_butn {
+    /* margin-left: 65px; */
+    border-radius: 10px;
+    background-color: #0F5132;
+    color: white;
+    box-shadow: 0px 4px 3px black;
+    margin-right: 10px;
+    margin-left: 10px;
+}

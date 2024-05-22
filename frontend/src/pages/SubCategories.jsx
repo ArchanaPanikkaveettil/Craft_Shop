@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-
-
 import '../styles/subcategory.css'
 import Navbar from '../components/Navbar';
 
@@ -10,6 +8,8 @@ import Navbar from '../components/Navbar';
 
 export default function SubCategories() {
 
+
+    const role = sessionStorage.getItem('role');
 
     const [subcategory, setSubcategory] = useState([]);
     console.log('SubCategories', subcategory);
@@ -31,6 +31,18 @@ export default function SubCategories() {
 
     }, [])
 
+    //delete sub category
+    const Deletesubcategory = (id) => {
+
+        axios.delete(`http://localhost:3000/shop/deletesubcategory/${id}`).then(res => {
+            console.log(res.data);
+            window.location.reload();
+        }).catch((err) => {
+            console.log(err);
+        })
+
+    }
+
 
     return (
         <>
@@ -39,7 +51,7 @@ export default function SubCategories() {
 
             <div class="categorylist" id='categorybody'>
 
-                <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="row">
 
                     {subcategory.map((item) => (
 
@@ -51,8 +63,13 @@ export default function SubCategories() {
                                     </div>
                                     <h5 id='subcategoryname'>{item.subcategoryname}</h5>
                                 </a>
-
                             </div>
+                            {role == '0' ? (
+                                <div id='buttons'>
+                                    <button class="btn" id='edit_butn' >Edit</button>
+                                    <button class="btn" id='delete_butn' onClick={() => { Deletesubcategory(item._id) }} >Delete</button>
+                                </div>
+                            ) : ('')}
                         </div>
                     ))}
 

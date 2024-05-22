@@ -13,6 +13,8 @@ import Products from './pages/Products';
 import ProductView from './pages/ProductView';
 import AddProduct from './pages/AddProduct';
 import AdminNav from './components/AdminNav';
+import AddCategory from './pages/AddCategory';
+import AddSubcategory from './pages/AddSubcategory';
 
 function App() {
   return (
@@ -37,6 +39,8 @@ function App() {
           <Route path='/products/:name' element={<Products />} />
           <Route path='/productview/:id' element={<ProductView />} />
           <Route path='/addproduct' element={<AddProduct />} />
+          <Route path='/addcategory' element={< AddCategory />} />
+          <Route path='/addsubcategory' element={<AddSubcategory />} />
 
 
 

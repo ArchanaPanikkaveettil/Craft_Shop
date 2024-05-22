@@ -52,7 +52,7 @@ export default function Home() {
         {/* ---------------------------------- */}
 
 
-        <div class="row" id='categorylist'>
+        <div  class="row" id='categorylist'>
 
           {categorylist.map((item) => (
 
@@ -63,6 +63,7 @@ export default function Home() {
               <Link to={`/category/${item._id}`}>
               <button class="btn" id='checkout' >Check Out</button>
               </Link>
+
             </div>
             
           ))}
@@ -78,7 +79,7 @@ export default function Home() {
 
         {/* --------------------- */}
 
-        <div id='homecontent4'>
+        <div id='homecontent4' >
 
           <img src='/images/artist2.jpg' alt='artist1' id='artist1'></img>
           <h1 id='divtitle'>Discover Your<br /> Crafting Oasis Here :) <br />Supplies, Tools, Inspiration</h1>

@@ -37,11 +37,11 @@ export default function AdminNav() {
 
 
                             <li class="nav-item active">
-                                <a class="nav-link" href="/shop">Add Category</a>
+                                <a class="nav-link" href="/addcategory">Add Category</a>
                             </li>
 
                             <li class="nav-item active">
-                                <a class="nav-link" href="/shop">Add Sub Category</a>
+                                <a class="nav-link" href="/addsubcategory">Add Sub Category</a>
                             </li>
 
                             <li class="nav-item active">
