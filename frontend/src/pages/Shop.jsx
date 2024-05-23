@@ -14,7 +14,7 @@ export default function Shop() {
 
     useEffect(() => {
 
-        axios.get('http://localhost:3000/shop/productcategories').then(res => {
+        axios.get('https://craft-shop-ftlg.onrender.com/shop/productcategories').then(res => {
             console.log(res.data);
             Setcategorylist(res.data.Categories);
 
@@ -34,7 +34,7 @@ export default function Shop() {
     //delete category
     const Deletecategory = (id) => {
 
-        axios.delete(`http://localhost:3000/shop/deletecategory/${id}`).then(res => {
+        axios.delete(`https://craft-shop-ftlg.onrender.com/shop/deletecategory/${id}`).then(res => {
             console.log(res.data);
             window.location.reload();
         }).catch((err) => {

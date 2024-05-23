@@ -3,13 +3,14 @@ const loginRouter = express.Router();
 const bcrypt = require('bcrypt'); //library for hashing password // 'npm install bcrypt'
 const jwt = require('jsonwebtoken'); //library for token generation //used for authentication
 
+const userRegModel = require('../models/userRegModel');
 const loginModel = require('../models/LoginModel');
 
 loginRouter.post('/', async (req, res) => {
 
     try {
 
-        const user = await loginModel.findOne({ username: req.body.username});
+        const user = await loginModel.findOne({ username: req.body.username });
         console.log(user);
 
         if (!user) { //if not registered
@@ -18,14 +19,66 @@ loginRouter.post('/', async (req, res) => {
         }
 
 
-        const {password}= req.body; // OR const password = req.body.password;
+        const { password } = req.body; // OR const password = req.body.password;
         const isspassword = await bcrypt.compare(password, user.password); //bcrypt.compare method is used to compare a plaintext password (password) with a hashed password (user.password).
-    
+
 
         //password check
-        if (isspassword) { //simply - user.password == req.body.password
+        if (isspassword) { //simply for starter, before encryption - user.password == req.body.password
 
-            return res.status(200).json({ success: true, error: false, message: "login successful", user: user });
+
+
+
+            //---------token generation/creation-----------
+
+            if (user.role == 1) {
+
+                const userDetails = await userRegModel.findOne({ loginId: req.body.loginId }); //reg details
+                console.log(userDetails);
+
+                const token = jwt.sign({    //sign - this function is used to create/generate token
+
+                    userid: userDetails._id, //reg details is in const userDetails
+                    name: userDetails.name,
+                    username: user.username, //login details is already get in const user
+                    role: user.role,
+
+
+                },
+
+                    'secret_key_not_exclusive',//secret key
+                    { expiresIn: '6h' }
+
+                );
+
+                console.log('token', token);
+
+            }
+
+
+            if (user.role == 0) {
+
+                const adminDetails = await userRegModel.findOne({ loginId: req.body.loginId });
+                console.log(adminDetails);
+
+                const token = jwt.sign({
+
+                    userid: adminDetails._id,
+                    username: user.username,
+                    role: user.role,
+
+                },
+
+                    'secret_key_not_exclusive',
+                    { expiresIn: '6h' }
+
+                );
+
+                console.log('token', token);
+
+            }
+
+            return res.status(200).json({ success: true, error: false, message: "login successful", expiresIn: '21600', token: token });
         }
         else {
             res.status(500).json({ success: true, error: false, message: "password not matched" });
@@ -33,7 +86,7 @@ loginRouter.post('/', async (req, res) => {
 
 
     } catch (err) {
-        
+
         console.log(err);
         return res.status(500).json({ success: false, error: true, message: "something went wrong in loginRouter" })
 

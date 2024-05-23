@@ -20,7 +20,7 @@ export default function SubCategories() {
     useEffect(() => {
 
 
-        axios.get(`http://localhost:3000/shop/subcategoryof/${id}`).then((response) => {
+        axios.get(`https://craft-shop-ftlg.onrender.com/shop/subcategoryof/${id}`).then((response) => {
 
             // console.log(response.data);
             setSubcategory(response.data.SubCategories);
@@ -34,7 +34,7 @@ export default function SubCategories() {
     //delete sub category
     const Deletesubcategory = (id) => {
 
-        axios.delete(`http://localhost:3000/shop/deletesubcategory/${id}`).then(res => {
+        axios.delete(`https://craft-shop-ftlg.onrender.com/shop/deletesubcategory/${id}`).then(res => {
             console.log(res.data);
             window.location.reload();
         }).catch((err) => {

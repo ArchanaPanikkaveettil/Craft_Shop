@@ -81,7 +81,7 @@ export default function AddProduct() {
 
         if (Object.keys(formError).length == 0) {
 
-            axios.post('http://localhost:3000/shop/addproduct', productInput).then((res) => {
+            axios.post('https://craft-shop-ftlg.onrender.com/shop/addproduct', productInput).then((res) => {
                 console.log('Product Added Details', res.data);
                 alert(res.data.message);
             }).catch((err) => {
@@ -99,7 +99,7 @@ export default function AddProduct() {
 
     useEffect(() => {
 
-        axios.get('http://localhost:3000/shop/productcategories').then((res) => {
+        axios.get('https://craft-shop-ftlg.onrender.com/shop/productcategories').then((res) => {
             // console.log('Product Categories', res.data.Categories);
             setProductcategories(res.data.Categories);
 
@@ -116,7 +116,7 @@ export default function AddProduct() {
         const category_id = productInput.productcategory;
         console.log('Category Id', category_id);
 
-        axios.get(`http://localhost:3000/shop/subcategoryof/${category_id}`).then((res) => {
+        axios.get(`https://craft-shop-ftlg.onrender.com/shop/subcategoryof/${category_id}`).then((res) => {
             console.log('Product Subcategories', res.data);
             setSubcategories(res.data.SubCategories);
         })

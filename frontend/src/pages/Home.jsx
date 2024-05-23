@@ -15,7 +15,7 @@ export default function Home() {
 
   useEffect(() => {
 
-    axios.get('http://localhost:3000/shop/productcategories').then(res => {
+    axios.get('https://craft-shop-ftlg.onrender.com/shop/productcategories').then(res => {
       console.log(res.data);
       Setcategorylist(res.data.Categories);
 

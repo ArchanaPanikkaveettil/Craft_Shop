@@ -58,7 +58,7 @@ export default function AddSubcategory() {
 
         if (Object.keys(errors).length == 0) {
 
-            axios.post('http://localhost:3000/shop/addsubcategory', subCategoryInput).then(res => {
+            axios.post('https://craft-shop-ftlg.onrender.com/shop/addsubcategory', subCategoryInput).then(res => {
                 console.log('Added category details', res.data);
                 alert(res.data.message);
 
@@ -77,7 +77,7 @@ export default function AddSubcategory() {
 
     useEffect(() => {
 
-        axios.get('http://localhost:3000/shop/productcategories').then((res) => {
+        axios.get('https://craft-shop-ftlg.onrender.com/shop/productcategories').then((res) => {
             // console.log('Product Categories', res.data.Categories);
             setProductcategories(res.data.Categories);
 

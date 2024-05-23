@@ -148,7 +148,7 @@ export default function Login() {
 
         if (Object.keys(formError).length == 0) { //checks if the formError usestate is empty // ie; no error message
 
-            axios.post('http://localhost:3000/user/adduser', input).then((response) => {
+            axios.post('https://craft-shop-ftlg.onrender.com/user/adduser', input).then((response) => {
 
                 console.log(response.data);
                 alert(response.data.message);
@@ -220,7 +220,7 @@ export default function Login() {
 
         if (Object.keys(loginError).length == 0) { //if the loginError usestate is empty ie; no error message
 
-            axios.post('http://localhost:3000/login', loginInput).then((response) => {
+            axios.post('https://craft-shop-ftlg.onrender.com/login', loginInput).then((response) => {
 
                 console.log('login response', response.data);
                 alert(response.data.message);
@@ -232,7 +232,7 @@ export default function Login() {
                     sessionStorage.setItem('username', response.data.user.username)
                     sessionStorage.setItem('loginId', response.data.user._id)
 
-                    // navigate('/')
+                    navigate('/')
 
                 }
                 else if (response.data.user.role == 0) {
@@ -245,7 +245,7 @@ export default function Login() {
                 }
 
             }).catch((error) => {
-                console.log(error.message);
+                console.log(error);
             })
         }
     }

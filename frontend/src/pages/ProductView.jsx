@@ -17,7 +17,7 @@ export default function ProductView() {
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/shop/productdetails/${id}`).then((res) => {
+        axios.get(`https://craft-shop-ftlg.onrender.com/shop/productdetails/${id}`).then((res) => {
             // console.log(res.data.ProductDetails);
             setProductInfo(res.data.ProductDetails);
         })
@@ -26,7 +26,7 @@ export default function ProductView() {
     //delete product
     const DeleteProduct = (id) => {
 
-        axios.delete(`http://localhost:3000/shop/deleteproduct/${id}`).then(res => {
+        axios.delete(`https://craft-shop-ftlg.onrender.com/shop/deleteproduct/${id}`).then(res => {
             console.log(res.data);
             Navigate(`/products/${producInfo.subcategory}`);
         }).catch((err) => {
@@ -55,11 +55,12 @@ export default function ProductView() {
                             <p style={{ zIndex: '10' }}>{producInfo.productdescription}</p>
                         </div>
 
-                        <div id='buttons'>
-                            <button class="btn" id='edit_buttn' >Edit</button>
-                            <button class="btn" id='delete_buttn' onClick={() => { DeleteProduct(producInfo._id) }} >Delete</button>
-                        </div>
-
+                        {role == '0' ? (
+                            <div id='buttons'>
+                                <button class="btn" id='edit_buttn' >Edit</button>
+                                <button class="btn" id='delete_buttn' onClick={() => { DeleteProduct(producInfo._id) }} >Delete</button>
+                            </div>
+                        ) : ('')}
 
                         {/* <h5 id='subcategoryname' style={{ color: 'black' }}>{producInfo._id}</h5> */}
 

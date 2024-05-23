@@ -16,7 +16,7 @@ export default function Products() {
     useEffect(() => {
 
 
-        axios.get(`http://localhost:3000/shop/subcatallproducts/${subcategoryname}`).then((res) => {
+        axios.get(`https://craft-shop-ftlg.onrender.com/shop/subcatallproducts/${subcategoryname}`).then((res) => {
             // console.log('Products of this subcagory', res.data.Products);
             setProducts(res.data.Products)
         }).catch((err) => {

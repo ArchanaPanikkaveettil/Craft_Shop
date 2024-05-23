@@ -53,7 +53,7 @@ export default function AddCategory() {
 
         if (Object.keys(errors).length == 0) {
 
-            axios.post('http://localhost:3000/shop/addproductcategory', categoryInput).then(res => {
+            axios.post('https://craft-shop-ftlg.onrender.com/shop/addproductcategory', categoryInput).then(res => {
                 console.log('Added category details', res.data.CategoryDetails);
                 alert(res.data.message);
 

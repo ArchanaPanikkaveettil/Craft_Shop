@@ -4,9 +4,8 @@ const mongoose = require('mongoose'); //importing mongoose
 const bcrypt = require('bcrypt'); //bcrypt is a library for hashing and salting passwords.
 
 //import models
-const userRegModel = require('../models/userRegModel');
-const loginModel = require('../models/LoginModel');
 
+const loginModel = require('../models/LoginModel');
 
 
 
