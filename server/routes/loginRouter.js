@@ -33,12 +33,12 @@ loginRouter.post('/', async (req, res) => {
 
             if (user.role == 1) {
 
-                const userDetails = await userRegModel.findOne({ loginId: req.body.loginId }); //reg details
+                const userDetails = await userRegModel.findOne({ loginId: user._id }); //reg details
                 console.log(userDetails);
 
                 const token = jwt.sign({    //sign - this function is used to create/generate token
 
-                    userid: userDetails._id, //reg details is in const userDetails
+                    userid: userDetails.loginId, //reg details is in const userDetails
                     name: userDetails.name,
                     username: user.username, //login details is already get in const user
                     role: user.role,
@@ -52,18 +52,19 @@ loginRouter.post('/', async (req, res) => {
                 );
 
                 console.log('token', token);
+                return res.status(200).json({ success: true, error: false, message: "login successful", expiresIn: '21600', token: token });
 
             }
 
 
             if (user.role == 0) {
 
-                const adminDetails = await userRegModel.findOne({ loginId: req.body.loginId });
+                const adminDetails = await userRegModel.findOne({ loginId: user._id });
                 console.log(adminDetails);
 
                 const token = jwt.sign({
 
-                    userid: adminDetails._id,
+                    userid: adminDetails.loginId,
                     username: user.username,
                     role: user.role,
 
@@ -73,12 +74,13 @@ loginRouter.post('/', async (req, res) => {
                     { expiresIn: '6h' }
 
                 );
+                return res.status(200).json({ success: true, error: false, message: "login successful", expiresIn: '21600', token: token });
 
                 console.log('token', token);
 
+
             }
 
-            return res.status(200).json({ success: true, error: false, message: "login successful", expiresIn: '21600', token: token });
         }
         else {
             res.status(500).json({ success: true, error: false, message: "password not matched" });
