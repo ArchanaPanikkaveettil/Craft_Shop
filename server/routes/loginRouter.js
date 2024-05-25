@@ -52,7 +52,7 @@ loginRouter.post('/', async (req, res) => {
                 );
 
                 console.log('token', token);
-                return res.status(200).json({ success: true, error: false, message: "login successful", expiresIn: '21600', token: token, userid: userDetails.loginId, username: user.username, name: userDetails.name, role: user.role });
+                return res.status(200).json({ success: true, error: false, message: "login successful", expiresIn: '21600', token: token, userid: userDetails.loginId, username: user.username, role: user.role });
 
             }
 
@@ -74,7 +74,7 @@ loginRouter.post('/', async (req, res) => {
                     { expiresIn: '6h' }
 
                 );
-                return res.status(200).json({ success: true, error: false, message: "login successful", expiresIn: '21600', token: token });
+                return res.status(200).json({ success: true, error: false, message: "login successful", expiresIn: '21600', token: token, userid: adminDetails.loginId, username: user.username, role: user.role});
 
                 console.log('token', token);
 
