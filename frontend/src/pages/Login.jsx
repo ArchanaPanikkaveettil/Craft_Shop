@@ -228,18 +228,14 @@ export default function Login() {
                 //saving data in session storage - for conditional rendering
                 if (response.data.user.role == 1) { //user
 
-                    sessionStorage.setItem('role', response.data.user.role)
-                    sessionStorage.setItem('username', response.data.user.username)
-                    sessionStorage.setItem('loginId', response.data.user._id)
+                    sessionStorage.setItem('token', response.data.user.token)
 
                     navigate('/')
 
                 }
                 else if (response.data.user.role == 0) {
 
-                    sessionStorage.setItem('role', response.data.user.role)
-                    sessionStorage.setItem('username', response.data.user.username)
-                    sessionStorage.setItem('loginId', response.data.user._id)
+                    sessionStorage.setItem('token', response.data.user.token)
 
                     navigate('/home')
                 }
