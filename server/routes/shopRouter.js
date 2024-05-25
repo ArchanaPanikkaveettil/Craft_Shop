@@ -21,7 +21,7 @@ shopRouter.post('/addproduct', async (req, res) => {
 
     try {
 
-        let product = { shop_id: new mongoose.Types.ObjectId(req.body.shop_id), productname: req.body.productname, productprice: req.body.productprice, productdescription: req.body.productdescription, productcategory: req.body.productcategory, subcategory: req.body.subcategory, productimage: req.body.productimage, productquantity: req.body.productquantity, quantitytype: req.body.quantitytype,  };
+        let product = { shop_id: new mongoose.Types.ObjectId(req.body.shop_id), productname: req.body.productname, productprice: req.body.productprice, productdescription: req.body.productdescription, productcategory: req.body.productcategory, subcategory: req.body.subcategory, productimage: req.body.productimage, productquantity: req.body.productquantity, quantitytype: req.body.quantitytype, };
         console.log(product);
         let productData = await productModel(product).save();
 
@@ -91,20 +91,20 @@ shopRouter.get('/subcatallproducts/:name', async (req, res) => {
 
     try {
 
-        const allProducts = await productModel.find({ subcategory: req.params.name }); 
+        const allProducts = await productModel.find({ subcategory: req.params.name });
         console.log(allProducts);
 
         if (allProducts[0]) {
-            
+
             return res.status(200).json({ success: true, error: false, message: "Products fetched successfully", Products: allProducts });
         }
-        
+
         else {
             res.status(500).json({ success: true, error: false, message: "No Products found" });
         }
 
     } catch (error) {
-        res.status(500).json({ success: false, error: true, message: "Something went wrong in viewing products under specific subcategory", error : error });
+        res.status(500).json({ success: false, error: true, message: "Something went wrong in viewing products under specific subcategory", error: error });
     }
 })
 
@@ -369,6 +369,32 @@ shopRouter.get('/subcategories', async (req, res) => {
     }
 
 })
+
+
+// ---------------------------view specific subcategory ------------------------------------------------
+shopRouter.get('/subcategories/:id', async (req, res) => {
+
+    console.log(req.params.id);
+    
+    try {
+
+        const specificSubCategory = await SubCategoryModel.findOne({ _id: req.params.id });
+
+        if (specificSubCategory) {
+
+            return res.status(200).json({ success: true, error: false, message: "Sub category fetched successfully", SubCategoryDetails: specificSubCategory });
+        }
+        else {
+            return res.status(400).json({ success: true, error: false, message: "No Sub category found" });
+        }
+
+    } catch (error) {
+
+        return res.status(500).json({ success: false, error: true, message: "Something went wrong in viewing specific sub category", error: error });
+    }
+})
+
+
 
 // ----------------------------View all sub category of specific main category--------------------------------------------------
 

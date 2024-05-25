@@ -226,16 +226,21 @@ export default function Login() {
                 alert(response.data.message);
 
                 //saving data in session storage - for conditional rendering
-                if (response.data.user.role == 1) { //user
+                if (response.data.role == 1) { //user
 
-                    sessionStorage.setItem('token', response.data.user.token)
+                    sessionStorage.setItem('token', response.data.token)
+                    sessionStorage.setItem('userid',response.data.userid)
+                    sessionStorage.setItem('username',response.data.username)
+                    sessionStorage.setItem('role',response.data.role)
 
                     navigate('/')
 
                 }
-                else if (response.data.user.role == 0) {
+                else if (response.data.role == 0) {
 
-                    sessionStorage.setItem('token', response.data.user.token)
+                    sessionStorage.setItem('token', response.data.token)
+                    sessionStorage.setItem('userid',response.data.userid)
+                    sessionStorage.setItem('role',response.data.role)
 
                     navigate('/home')
                 }

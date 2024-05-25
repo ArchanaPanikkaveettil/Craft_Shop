@@ -30,6 +30,7 @@ loginRouter.post('/', async (req, res) => {
 
 
             //---------token generation/creation-----------
+            // console.log(user.role);
 
             if (user.role == 1) {
 

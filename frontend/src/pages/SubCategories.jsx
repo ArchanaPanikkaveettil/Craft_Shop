@@ -66,7 +66,7 @@ export default function SubCategories() {
                             </div>
                             {role == '0' ? (
                                 <div id='buttons'>
-                                    <button class="btn" id='edit_butn' >Edit</button>
+                                    <button class="btn" id='edit_butn' onClick={() => { window.location.href = `/editsubcategory/${item._id}` }}>Edit</button>
                                     <button class="btn" id='delete_butn' onClick={() => { Deletesubcategory(item._id) }} >Delete</button>
                                 </div>
                             ) : ('')}

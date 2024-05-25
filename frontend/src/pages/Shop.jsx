@@ -71,7 +71,7 @@ export default function Shop() {
                                 <button class="btn" id='checkout' >Check Out</button>
                             </Link>
 
-                            <button class="btn" id='edit_btn' >Edit</button>
+                            <button class="btn" id='edit_btn' onClick={() => { window.location.href = `/editcategory/${item._id}` }}>Edit</button>
 
                             <button class="btn" id='delete_btn' onClick={() => { Deletecategory(item._id) }} >Delete</button>
 

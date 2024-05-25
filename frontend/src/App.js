@@ -15,6 +15,8 @@ import AddProduct from './pages/AddProduct';
 import AdminNav from './components/AdminNav';
 import AddCategory from './pages/AddCategory';
 import AddSubcategory from './pages/AddSubcategory';
+import EditCategory from './pages/EditCategory';
+import EditSubcategory from './pages/EditSubcategory';
 
 function App() {
   return (
@@ -41,6 +43,8 @@ function App() {
           <Route path='/addproduct' element={<AddProduct />} />
           <Route path='/addcategory' element={< AddCategory />} />
           <Route path='/addsubcategory' element={<AddSubcategory />} />
+          <Route path='/editcategory/:id' element={<EditCategory />} />
+          <Route path='/editsubcategory/:id' element={<EditSubcategory />} />
 
 
 
