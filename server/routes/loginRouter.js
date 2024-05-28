@@ -39,7 +39,7 @@ loginRouter.post('/', async (req, res) => {
 
                 const token = jwt.sign({    //sign - this function is used to create/generate token
 
-                    userid: userDetails.loginId, //reg details is in const userDetails
+                    loginId: userDetails.loginId, //reg details is in const userDetails
                     name: userDetails.name,
                     username: user.username, //login details is already get in const user
                     role: user.role,
@@ -53,7 +53,7 @@ loginRouter.post('/', async (req, res) => {
                 );
 
                 console.log('token', token);
-                return res.status(200).json({ success: true, error: false, message: "login successful", expiresIn: '21600', token: token, userid: userDetails.loginId, username: user.username, role: user.role });
+                return res.status(200).json({ success: true, error: false, message: "login successful", expiresIn: '21600', token: token, loginId: userDetails.loginId, username: user.username, role: user.role });
 
             }
 
@@ -65,7 +65,7 @@ loginRouter.post('/', async (req, res) => {
 
                 const token = jwt.sign({
 
-                    userid: adminDetails.loginId,
+                    loginId: adminDetails.loginId,
                     username: user.username,
                     role: user.role,
 
@@ -75,9 +75,7 @@ loginRouter.post('/', async (req, res) => {
                     { expiresIn: '6h' }
 
                 );
-                return res.status(200).json({ success: true, error: false, message: "login successful", expiresIn: '21600', token: token, userid: adminDetails.loginId, username: user.username, role: user.role});
-
-                console.log('token', token);
+                return res.status(200).json({ success: true, error: false, message: "login successful", expiresIn: '21600', token: token, loginId: adminDetails.loginId, username: user.username, role: user.role});
 
 
             }

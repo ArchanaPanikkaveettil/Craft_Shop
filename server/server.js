@@ -11,6 +11,7 @@ const app = express();
 const userRouter = require('./routes/userRouter');
 const shopRouter = require('./routes/shopRouter');
 const loginRouter = require('./routes/loginRouter');
+const CartRouter = require('./routes/CartRouter');
 
 
 //----- Use middleware to parse incoming requests------
@@ -44,6 +45,7 @@ app.use((req, res, next) => {
 app.use('/user', userRouter);
 app.use('/shop', shopRouter);
 app.use('/login', loginRouter);
+app.use('/cart', CartRouter);
 
 
 
@@ -63,6 +65,6 @@ mongoose.connect('mongodb+srv://archanapanikkaveettil:archanapanikkaveettil@clus
 
         });
 
-    }).catch((error)=>{
+    }).catch((error) => {
         console.log(error);
     })

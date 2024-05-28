@@ -54,11 +54,25 @@ userRouter.post('/adduser', async (req, res) => { //posting data to the database
             const hashedPassword = await bcrypt.hash(req.body.password, 12); //hashing means converting a plain text password into a hashed string.
 
             //table1-login
-            let log = { username: req.body.username, password: hashedPassword, role: 1 }; //getting data from the request body to the database. // log is a object containing user login details.
+            let log = {
+                username: req.body.username,
+                password: hashedPassword,
+                role: 1
+            }; //getting data from the request body to the database. // log is a object containing user login details.
+
             const logData = await loginModel(log).save();//save data to login db.//DB loginModel is called and create a new document with specified data - which is the log object. //logData - variable to store the result of the save() method.
 
             //table2-reg
-            let reg = { loginId: logData._id, name: req.body.name, address: req.body.address, phone: req.body.phone, gender: req.body.gender, email: req.body.email, role: 1 }; //getting data from the request body to the database. // reg is a object containing user registration details.
+            let reg = {
+                loginId: logData._id,
+                name: req.body.name,
+                address: req.body.address,
+                phone: req.body.phone,
+                gender: req.body.gender,
+                email: req.body.email,
+                role: 1
+            }; //getting data from the request body to the database. // reg is a object containing user registration details.
+
             const regData = await userRegModel(reg).save();
             console.log(regData);
 
@@ -69,8 +83,8 @@ userRouter.post('/adduser', async (req, res) => { //posting data to the database
 
         }
 
-        else{
-        res.status(500).json({ success: false, error: true, message: "All feilds are required" });
+        else {
+            res.status(500).json({ success: false, error: true, message: "All feilds are required" });
         }
 
     } catch (error) {
@@ -113,7 +127,7 @@ userRouter.get('/userdetails', async (req, res) => {
 // ------------------------------------- User Profile -----------------------------------------
 
 
-userRouter.get('/userprofile',checkAuth, async (req, res) => { //checkAuth is checked then the user profile is displayed
+userRouter.get('/userprofile', checkAuth, async (req, res) => { //checkAuth is checked then the user profile is displayed
 
     try {
 

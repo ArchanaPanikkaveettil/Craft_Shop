@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
 
         if (decodedToken.role == 1) {
             req.userData = {
-                userid: decodedToken.userid,
+                loginId: decodedToken.loginId,
                 username: decodedToken.username,
                 role: decodedToken.role,
             };
@@ -19,7 +19,7 @@ module.exports = (req, res, next) => {
 
         else if (decodedToken.role == 0) {
             req.adminData = {
-                shopid: decodedToken.shop_id,
+                loginId: decodedToken.loginId,
                 username: decodedToken.username,
                 shopname: decodedToken.shopname,
                 role: decodedToken.role,
