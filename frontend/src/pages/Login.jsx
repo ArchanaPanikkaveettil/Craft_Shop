@@ -138,14 +138,16 @@ export default function Login() {
 
     }
 
- 
+
     //adduser-registration
     const onSignup = () => {
 
         //validation
         setFormError(formValidation(input)) //calling formValidation function passing input(sign up form data) as a parameter//sets FormError useState the ouput of formValidation function - ie error message
 
+    }
 
+    useEffect(() => {
         if (Object.keys(formError).length == 0) { //checks if the formError usestate is empty // ie; no error message
 
             axios.post('https://craft-shop-ftlg.onrender.com/user/adduser', input).then((response) => {
@@ -157,9 +159,9 @@ export default function Login() {
                 console.log(err);
             })
         }
-    }
+    }, [formError])
 
-// ----------------------------------------login form---------------------------------------------------
+    // ----------------------------------------login form---------------------------------------------------
 
     //login form data
     const [loginInput, setLoginInput] = useState({
@@ -179,7 +181,10 @@ export default function Login() {
 
 
     //form validation for login 
-    const [loginError, setLoginError] = useState({});
+    const [loginError, setLoginError] = useState({
+        username: '',
+        password: '',
+    });
     console.log(loginError);
 
     const loginValidation = (data) => {
@@ -210,14 +215,16 @@ export default function Login() {
         return phonePattern.test(phone);
     };
 
-   
+
     //login
     const onLogin = () => {
 
         //validation
         setLoginError(loginValidation(loginInput)) // calling loginValidation function passing loginInput( login form data) as a parameter//sets FormError useState the ouput of loginValidation function - ie error message
 
+    }
 
+    useEffect(() => {
         if (Object.keys(loginError).length == 0) { //if the loginError usestate is empty ie; no error message
 
             axios.post('https://craft-shop-ftlg.onrender.com/login', loginInput).then((response) => {
@@ -229,9 +236,9 @@ export default function Login() {
                 if (response.data.role == 1) { //user
 
                     sessionStorage.setItem('token', response.data.token)
-                    sessionStorage.setItem('userid',response.data.userid)
-                    sessionStorage.setItem('username',response.data.username)
-                    sessionStorage.setItem('role',response.data.role)
+                    sessionStorage.setItem('userid', response.data.userid)
+                    sessionStorage.setItem('username', response.data.username)
+                    sessionStorage.setItem('role', response.data.role)
 
                     navigate('/')
 
@@ -239,8 +246,8 @@ export default function Login() {
                 else if (response.data.role == 0) {
 
                     sessionStorage.setItem('token', response.data.token)
-                    sessionStorage.setItem('userid',response.data.userid)
-                    sessionStorage.setItem('role',response.data.role)
+                    sessionStorage.setItem('userid', response.data.userid)
+                    sessionStorage.setItem('role', response.data.role)
 
                     navigate('/home')
                 }
@@ -249,7 +256,7 @@ export default function Login() {
                 console.log(error);
             })
         }
-    }
+    }, [loginError])
 
     return (
         <>
@@ -273,7 +280,7 @@ export default function Login() {
                             <input type="email" id='email' name='email' class="input" placeholder="Email" onChange={inputChange} style={{ borderColor: formError.email ? 'red' : '', borderWidth: formError.email ? '2px' : '', borderStyle: formError.email ? 'solid' : '', borderRadius: formError.email ? '15px' : '' }} onClick={() => { setFormError({ ...formError, email: "" }) }} />
                             <input type="text" id='phone' name='phone' class="input" placeholder="Phone" onChange={inputChange} style={{ borderColor: formError.phone ? 'red' : '', borderWidth: formError.phone ? '2px' : '', borderStyle: formError.phone ? 'solid' : '', borderRadius: formError.phone ? '15px' : '' }} onClick={() => { setFormError({ ...formError, phone: "" }) }} />
 
-                            <select className="input" id='gender' name='gender' onChange={inputChange} style={{ borderColor: formError.gender ? 'red' : '', borderWidth: formError.gender ? '2px' : '', borderStyle: formError.gender ? 'solid' : '', borderRadius: formError.gender ? '15px' : '' }} onClick={() => { setFormError({ ...formError, gender: "" })}} >
+                            <select className="input" id='gender' name='gender' onChange={inputChange} style={{ borderColor: formError.gender ? 'red' : '', borderWidth: formError.gender ? '2px' : '', borderStyle: formError.gender ? 'solid' : '', borderRadius: formError.gender ? '15px' : '' }} onClick={() => { setFormError({ ...formError, gender: "" }) }} >
                                 <option value="">Select Gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>

@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt'); //bcrypt is a library for hashing and salting 
 
 const loginModel = require('../models/LoginModel');
 const userRegModel = require('../models/userRegModel');
+const checkAuth = require('../middlewares/checkAuth');
 
 
 // creating routes and handling requests
@@ -112,11 +113,13 @@ userRouter.get('/userdetails', async (req, res) => {
 // ------------------------------------- User Profile -----------------------------------------
 
 
-userRouter.get('/userprofile/:id', async (req, res) => {
+userRouter.get('/userprofile',checkAuth, async (req, res) => { //checkAuth is checked then the user profile is displayed
 
     try {
 
-        const id = req.params.id; //getting the id from the url
+        // const id = req.params.id; //--getting the id from the url
+
+        const id = req.userData.userid; //accessing the id from the data stored in the token
 
         const data = await userRegModel.aggregate([
 
