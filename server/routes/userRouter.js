@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt'); //bcrypt is a library for hashing and salting 
 //import models
 
 const loginModel = require('../models/LoginModel');
-
+const userRegModel = require('../models/userRegModel');
 
 
 // creating routes and handling requests
@@ -18,51 +18,61 @@ const loginModel = require('../models/LoginModel');
 userRouter.post('/adduser', async (req, res) => { //posting data to the database.
 
     try {
-        console.log(req.body);
-        // old user check --- avoid duplication --- if anyone of the following conditions is true, the user is not allowed to register.
 
-        //condition1 - username already exists
-        const oldUser = await loginModel.findOne({ username: req.body.username }); //findOne - here search for object where the username field in dB matches the username value obtained from the request body (user).
-        if (oldUser) {
-            return res.status(201).json({ success: false, error: true, message: "user already exists" });
+        if (req.body.username && req.body.password && req.body.phone && req.body.email) {
+
+
+            console.log(req.body);
+            // old user check --- avoid duplication --- if anyone of the following conditions is true, the user is not allowed to register.
+
+            //condition1 - username already exists
+            const oldUser = await loginModel.findOne({ username: req.body.username }); //findOne - here search for object where the username field in dB matches the username value obtained from the request body (user).
+            if (oldUser) {
+                return res.status(201).json({ success: false, error: true, message: "user already exists" });
+            }
+
+            //condition2 - phone no already exists 
+            const oldPhone = await userRegModel.findOne({ phone: req.body.phone });
+            console.log(oldPhone);
+            if (oldPhone) {
+                return res.status(201).json({ success: false, error: true, message: "phone number already exists" });
+            }
+
+            //condition3 - email already exists
+            const oldEmail = await userRegModel.findOne({ email: req.body.email });
+            if (oldEmail) {
+                return res.status(201).json({ success: false, error: true, message: "email already exists" });
+            }
+
+            // --------------------------------------
+
+            //post data to db - if all conditions are false ^ - ie;new user.
+            //Using 2 tables to store data, one for user login and another for user registration.
+
+
+            const hashedPassword = await bcrypt.hash(req.body.password, 12); //hashing means converting a plain text password into a hashed string.
+
+            //table1-login
+            let log = { username: req.body.username, password: hashedPassword, role: 1 }; //getting data from the request body to the database. // log is a object containing user login details.
+            const logData = await loginModel(log).save();//save data to login db.//DB loginModel is called and create a new document with specified data - which is the log object. //logData - variable to store the result of the save() method.
+
+            //table2-reg
+            let reg = { loginId: logData._id, name: req.body.name, address: req.body.address, phone: req.body.phone, gender: req.body.gender, email: req.body.email, role: 1 }; //getting data from the request body to the database. // reg is a object containing user registration details.
+            const regData = await userRegModel(reg).save();
+            console.log(regData);
+
+            //response 
+            if (regData) {
+                return res.status(201).json({ success: true, error: false, message: "user registered successfully", RegistrationData: regData });
+            }
+
         }
 
-        //condition2 - phone no already exists 
-        const oldPhone = await userRegModel.findOne({ phone: req.body.phone });
-        console.log(oldPhone);
-        if (oldPhone) {
-            return res.status(201).json({ success: false, error: true, message: "phone number already exists" });
+        else{
+        res.status(500).json({ success: false, error: true, message: "All feilds are required" });
         }
 
-        //condition3 - email already exists
-        const oldEmail = await userRegModel.findOne({ email: req.body.email });
-        if (oldEmail) {
-            return res.status(201).json({ success: false, error: true, message: "email already exists" });
-        }
-
-        // --------------------------------------
-
-        //post data to db - if all conditions are false ^ - ie;new user.
-        //Using 2 tables to store data, one for user login and another for user registration.
-
-
-        const hashedPassword = await bcrypt.hash(req.body.password, 12); //hashing means converting a plain text password into a hashed string.
-
-        //table1-login
-        let log = { username: req.body.username, password: hashedPassword, role: 1 }; //getting data from the request body to the database. // log is a object containing user login details.
-        const logData = await loginModel(log).save();//save data to login db.//DB loginModel is called and create a new document with specified data - which is the log object. //logData - variable to store the result of the save() method.
-
-        //table2-reg
-        let reg = { loginId: logData._id, name: req.body.name, address: req.body.address, phone: req.body.phone, gender: req.body.gender, email: req.body.email, role: 1 }; //getting data from the request body to the database. // reg is a object containing user registration details.
-        const regData = await userRegModel(reg).save();
-        console.log(regData);
-
-        //response 
-        if (regData) {
-            return res.status(201).json({ success: true, error: false, message: "user registered successfully", RegistrationData: regData });
-        }
-
-    } catch (error) { 
+    } catch (error) {
 
         res.status(500).json({ success: false, error: true, message: "something went wrong in registration backend" });
         console.log(error);
@@ -215,18 +225,18 @@ userRouter.post('/updateuser/:id', async (req, res) => {
             email: req.body.email,
             gender: req.body.gender
         };
-        console.log(updatedData); 
+        console.log(updatedData);
 
         //updating user in reg table DB
-        const updatedUser = await userRegModel.updateOne({ _id: req.params.id }, {$set : updatedData});
+        const updatedUser = await userRegModel.updateOne({ _id: req.params.id }, { $set: updatedData });
         console.log(updatedUser); //{acknowledged: true, modifiedCount: 1, upsertedId: null, upsertedCount: 0, matchedCount: 1}
 
 
         if (updatedUser.modifiedCount == 1) {
-            
-            return res.status(200).json({ success: true, error: false, message: "user updated successfully", UpdatedInfo : updatedData  });
+
+            return res.status(200).json({ success: true, error: false, message: "user updated successfully", UpdatedInfo: updatedData });
         }
-        else{
+        else {
 
             return res.status(400).json({ success: false, error: true, message: "user not updated" });
         }
