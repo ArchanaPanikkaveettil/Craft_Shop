@@ -62,9 +62,9 @@ userRouter.post('/adduser', async (req, res) => { //posting data to the database
             return res.status(201).json({ success: true, error: false, message: "user registered successfully", RegistrationData: regData });
         }
 
-    } catch (error) {
+    } catch (error) { 
 
-        res.status(500).json({ success: false, error: true, message: "something went wrong in backend" });
+        res.status(500).json({ success: false, error: true, message: "something went wrong in registration backend" });
         console.log(error);
     }
 

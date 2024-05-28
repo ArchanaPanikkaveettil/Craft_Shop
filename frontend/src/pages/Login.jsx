@@ -154,7 +154,7 @@ export default function Login() {
                 alert(response.data.message);
 
             }).catch((err) => {
-                console.log(err.message);
+                console.log(err);
             })
         }
     }

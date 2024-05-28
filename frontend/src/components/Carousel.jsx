@@ -8,10 +8,10 @@ export default function Carousel() {
 
             {/* to fill the page, remove class=container */} {/* add time -- data-interval="4000" */}
             {/* remove data-ride="carousel" */}
-            
-            <div id="carouselExampleIndicators" class="carousel slide" >
+                
+            <div id="carouselExampleIndicators" class="carousel slide">
                 <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active" data-interval='4000'></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
                 </ol>

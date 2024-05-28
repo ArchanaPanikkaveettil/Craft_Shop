@@ -15,7 +15,7 @@ export default function EditSubcategory() {
 
     //form data
     const [subCategoryInput, setsubCategoryInput] = useState({})
-    console.log('subcategories', subCategoryInput);
+    console.log('Sub Category Info', subCategoryInput);
 
     const subCategoryInputChange = (e) => {
 
@@ -88,18 +88,15 @@ export default function EditSubcategory() {
             console.log(err);
         })
 
-    }, [])
 
-
-    useEffect(() => {
-        
         axios.get(`https://craft-shop-ftlg.onrender.com/shop/subcategories/${subid}`).then((res) => {
-            console.log('Product Categories', res.data);
-            // setsubCategoryInput(res.data);
+            // console.log('Product Sub Category Info', res.data);
+            setsubCategoryInput(res.data.SubCategoryDetails);
         }).catch((err) => {
             console.log(err);
         })
-    },[])
+
+    }, [])
 
 
 
@@ -113,12 +110,12 @@ export default function EditSubcategory() {
 
                     <div class="form-group">
                         <span class='Errorspan' style={{ color: errors.subcategoryname ? "red" : "", }}>{errors.subcategoryname}</span>
-                        <input type="text" class="form-control item" id="subcate_goryname" name="subcategoryname" placeholder="Sub Category Name" onChange={subCategoryInputChange} onClick={() => { setErrors({ ...errors, subcategoryname: "" }) }} />
+                        <input type="text" class="form-control item" id="subcate_goryname" name="subcategoryname" placeholder="Sub Category Name" value={subCategoryInput.subcategoryname} onChange={subCategoryInputChange} onClick={() => { setErrors({ ...errors, subcategoryname: "" }) }} />
                     </div>
 
                     <div class="form-group">
                         <span class='Errorspan' style={{ color: errors.subcategorydes ? "red" : "", }}>{errors.subcategorydes}</span>
-                        <input type="text" class="form-control item" id="subcategorydes" name="subcategorydes" placeholder="Sub Category Description" onChange={subCategoryInputChange} onClick={() => { setErrors({ ...errors, subcategorydes: "" }) }} />
+                        <input type="text" class="form-control item" id="subcategorydes" name="subcategorydes" placeholder="Sub Category Description" value={subCategoryInput.subcategorydes} onChange={subCategoryInputChange} onClick={() => { setErrors({ ...errors, subcategorydes: "" }) }} />
                     </div>
 
 
@@ -130,6 +127,7 @@ export default function EditSubcategory() {
                             id="categoryid"
                             onChange={subCategoryInputChange}
                             onClick={() => { setErrors({ ...errors, categoryid: "" }) }}
+                            value={subCategoryInput.categoryid}
                         >
                             <option value="">Select Category</option>
 
