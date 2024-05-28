@@ -10,6 +10,9 @@ export default function Navbar() {
     const role = sessionStorage.getItem('role')
     console.log('role', role);
 
+    const userid = sessionStorage.getItem('userid')
+    console.log('userid', userid);
+
     const navigate = useNavigate();
 
 
@@ -76,11 +79,11 @@ export default function Navbar() {
 
 
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="#">Contact</a>
+                                    <a class="nav-link" href={`/userprofile/${userid}`}>Profile</a>
                                 </li>
 
 
-                                <button type="button" class="btn" id='loginbutton' onClick={logout()}>Logout</button>
+                                <button type="button" class="btn" id='loginbutton' onClick={logout}>Logout</button>
 
 
                             </ul>
