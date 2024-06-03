@@ -32,7 +32,23 @@ export default function ProductView() {
         }).catch((err) => {
             console.log(err);
         })
+    }
 
+    //add to cart
+    const addtocart = () => {
+
+        axios.post(`https://craft-shop-ftlg.onrender.com/cart/addtocart`,producInfo,
+            {
+                headers: {
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                }
+            }
+
+        ).then((res) => {
+            console.log(res.data);
+        }).catch((err) => {
+            console.log(err);
+        })
     }
 
 
@@ -65,7 +81,7 @@ export default function ProductView() {
                         {/* <h5 id='subcategoryname' style={{ color: 'black' }}>{producInfo._id}</h5> */}
 
                         {role == '1' ? (
-                            <button id='addtocartbtn'>Add to Cart</button>
+                            <button id='addtocartbtn' onClick={addtocart} >Add to Cart</button>
                         ) : ('')}
 
                     </div>

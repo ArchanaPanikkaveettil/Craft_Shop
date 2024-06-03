@@ -15,7 +15,7 @@ CartRouter.post('/addtocart', checkAuth, async (req, res) => {
         let cart = {
 
             loginId: req.userData.loginId,
-            productId: req.body.productId,
+            productId: req.body._id,
             quantity: req.body.quantity,
 
         }
