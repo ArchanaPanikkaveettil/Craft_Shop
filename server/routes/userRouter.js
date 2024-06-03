@@ -150,8 +150,8 @@ userRouter.get('/userprofile', checkAuth, async (req, res) => { //checkAuth is c
                 '$unwind': '$login_details' //deconstruct an array field and output separate documents for each element.// :name of the array field you want to unwind.
             },
 
+            
             //only data of user that match the id of in both table is shown
-
             {
                 '$match': {
                     'loginId': new mongoose.Types.ObjectId(id) // display data of the user that matches the loginId, can change to _id ie; reg id
