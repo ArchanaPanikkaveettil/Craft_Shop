@@ -15,6 +15,7 @@ export default function ProductView() {
     console.log('Product Details ', producInfo);
 
     const { id } = useParams();
+    console.log(producInfo);
 
     useEffect(() => {
         axios.get(`https://craft-shop-ftlg.onrender.com/shop/productdetails/${id}`).then((res) => {
