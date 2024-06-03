@@ -112,7 +112,7 @@ CartRouter.get('/getcartitems', checkAuth, async (req, res) => {
     }
 })
 
-CartRouter.delete('/deletecartitem/:id', checkAuth, async (req, res) => {
+CartRouter.delete('/deletecartitem/:id', checkAuth, async (req, res) => { //id - cart_id
 
     try {
 
@@ -217,7 +217,7 @@ CartRouter.put('/decrement/:id', checkAuth, async (req, res) => { //id - cart_id
 })
 
 //product price according to quantity
-CartRouter.put('/price/:id', checkAuth, async (req, res) => {
+CartRouter.put('/price/:id', checkAuth, async (req, res) => { //id - cart_id
 
     try {
 
