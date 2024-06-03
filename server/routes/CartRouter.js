@@ -11,6 +11,7 @@ CartRouter.post('/addtocart', checkAuth, async (req, res) => {
     try {
 
         console.log(req.userData);
+        console.log(req.body);
 
         let cart = {
 
