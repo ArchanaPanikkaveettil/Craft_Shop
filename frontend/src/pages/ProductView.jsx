@@ -18,7 +18,7 @@ export default function ProductView() {
     console.log(producInfo);
 
     useEffect(() => {
-        axios.get(`https://craft-shop-ftlg.onrender.com/shop/productdetails/${id}`).then((res) => {
+        axios.get(`http://localhost:3000/shop/productdetails/${id}`).then((res) => {
             // console.log(res.data.ProductDetails);
             setProductInfo(res.data.ProductDetails);
         })
@@ -27,7 +27,7 @@ export default function ProductView() {
     //delete product
     const DeleteProduct = (id) => {
 
-        axios.delete(`https://craft-shop-ftlg.onrender.com/shop/deleteproduct/${id}`).then(res => {
+        axios.delete(`http://localhost:3000/shop/deleteproduct/${id}`).then(res => {
             console.log(res.data);
             Navigate(`/products/${producInfo.subcategory}`);
         }).catch((err) => {
@@ -38,9 +38,7 @@ export default function ProductView() {
     //add to cart
     const addtocart = () => {
 
-        // console.log(producInfo._id);
-
-        axios.post(`https://craft-shop-ftlg.onrender.com/cart/addtocart`,producInfo,
+        axios.post('http://localhost:3000/cart/addtocart', producInfo,
             {
                 headers: {
                     'Authorization': `Bearer ${sessionStorage.getItem('token')}`
@@ -49,6 +47,8 @@ export default function ProductView() {
 
         ).then((res) => {
             console.log(res.data);
+            alert(res.data.message);
+            // Navigate(`/cart/${res.data.details.loginId}`);
         }).catch((err) => {
             console.log(err);
         })

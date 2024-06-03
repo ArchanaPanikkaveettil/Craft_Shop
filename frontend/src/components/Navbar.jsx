@@ -82,6 +82,10 @@ export default function Navbar() {
                                     <a class="nav-link" href={`/userprofile/${userid}`}>Profile</a>
                                 </li>
 
+                                <li class="nav-item active">
+                                    <a class="nav-link" href={`/cart/${userid}`}>Cart</a>
+                                </li>
+
 
                                 <button type="button" class="btn" id='loginbutton' onClick={logout}>Logout</button>
 

@@ -133,7 +133,7 @@ userRouter.get('/userprofile', checkAuth, async (req, res) => { //checkAuth is c
 
         // const id = req.params.id; //--getting the id from the url
 
-        const id = req.userData.userid; //accessing the id from the data stored in the token
+        const id = req.userData.loginId; //accessing the id from the data stored in the token
 
         const data = await userRegModel.aggregate([
 

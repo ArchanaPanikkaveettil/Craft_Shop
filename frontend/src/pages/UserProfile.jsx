@@ -18,7 +18,7 @@ export default function UserProfile() {
                 'Authorization': `Bearer ${token}`
             }
         }).then((res) => {
-            // console.log('userprofile', res.data.user_profile[0]);
+            console.log('userprofile', res);
             setUserDetails(res.data.user_profile[0]);
         }).catch((err) => {
             console.log('error', err);
@@ -46,9 +46,9 @@ export default function UserProfile() {
                                         <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
                                             alt="Avatar" class="img-fluid my-5" style={{ width: '80px' }} />
 
-                                        <h5>{UserDetails.username}</h5>
+                                        <h5>{UserDetails?.username}</h5>
 
-                                        <p>{UserDetails.name}</p>
+                                        <p>{UserDetails?.name}</p>
 
                                         <i class="far fa-edit mb-5"></i>
 
@@ -64,17 +64,17 @@ export default function UserProfile() {
 
                                                 <div class="col-6 mb-3">
                                                     <h6>Email</h6>
-                                                    <p class="text_muted">{UserDetails.email}</p>
+                                                    <p class="text_muted">{UserDetails?.email}</p>
                                                 </div>
 
                                                 <div class="col-6 mb-3">
                                                     <h6>Phone</h6>
-                                                    <p class="text_muted">{UserDetails.phone}</p>
+                                                    <p class="text_muted">{UserDetails?.phone}</p>
                                                 </div>
 
                                                 <div class="col-6 mb-3">
                                                     <h6>Address</h6>
-                                                    <p class="text_muted">{UserDetails.address}</p>
+                                                    <p class="text_muted">{UserDetails?.address}</p>
                                                 </div>
 
                                             </div>
