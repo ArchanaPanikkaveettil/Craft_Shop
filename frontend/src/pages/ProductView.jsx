@@ -37,7 +37,8 @@ export default function ProductView() {
     //add to cart
     const addtocart = () => {
 
-        console.log(producInfo._id);
+        // console.log(producInfo._id);
+
         axios.post(`https://craft-shop-ftlg.onrender.com/cart/addtocart`,producInfo,
             {
                 headers: {

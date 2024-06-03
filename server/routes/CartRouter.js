@@ -10,31 +10,39 @@ CartRouter.post('/addtocart', checkAuth, async (req, res) => {
 
     try {
 
-        console.log(req.userData);
-        console.log(req.body);
+        if (req.body._id && req.userData.loginId && req.body.quantity) {
 
-        let cart = {
+            console.log(req.userData);
+            console.log(req.body);
 
-            loginId: req.userData.loginId,
-            productId: req.body._id,
-            quantity: req.body.quantity,
+            let cart = {
+
+                loginId: req.userData.loginId,
+                productId: req.body._id,
+                quantity: req.body.quantity,
+
+            }
+            console.log('cart', cart);
+
+            const result = await cartModel(cart).save();
+            console.log('result', result);
+
+            if (result) {
+
+                res.status(201).json({ success: true, error: false, message: "Product Added to cart", details: result });
+            }
+            else {
+
+                res.status(400).json({ success: false, error: true, message: "Product not added to cart" });
+            }
 
         }
-        console.log('cart', cart);
 
-        const result = await cartModel(cart).save();
-        console.log('result', result);
-
-        if (result) {
-
-            res.status(201).json({ success: true, error: false, message: "Product Added to cart", details: result });
-        }
         else {
-
-            res.status(400).json({ success: false, error: true, message: "Product not added to cart" });
+            res.status(400).json({ success: false, error: true, message: "Please provide all the details" });
         }
-
     }
+
     catch (error) {
 
         return res.status(400).json({ success: false, error: true, message: "something went wrong in adding to cart" });
@@ -97,7 +105,7 @@ CartRouter.get('/getcartitems', checkAuth, async (req, res) => {
                 grandtotal = grandtotal + total;
             }
 
-            res.status(200).json({ success: true, error: false, message: "cart items",grandtotal: grandtotal, details: cartdata  });
+            res.status(200).json({ success: true, error: false, message: "cart items", grandtotal: grandtotal, details: cartdata });
         }
         else {
             return res.status(500).json({ success: true, error: false, message: "cart items not found" });
