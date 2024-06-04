@@ -93,10 +93,11 @@ CartRouter.get('/getcartitems', checkAuth, async (req, res) => {
             let grandtotal = 0;
             for (i = 0; i < cartdata.length; i++) {
 
-                const total = cartdata[i].productprice * cartdata[i].quantity;
+                const total = cartdata[i].productprice * cartdata[i].quantity; //price according to quantity
                 console.log('price total', total);
-                cartdata[i].total = total;
-                grandtotal = grandtotal + total;
+                cartdata[i].total = total;  //replacing total in cartdata 
+
+                grandtotal = grandtotal + total; //grandtotal
             }
 
             res.status(200).json({ success: true, error: false, message: "cart items", grandtotal: grandtotal, details: cartdata });
@@ -217,84 +218,55 @@ CartRouter.put('/decrement/:id', checkAuth, async (req, res) => { //id - cart_id
 
 })
 
-//product price according to quantity
-CartRouter.put('/price/:id', checkAuth, async (req, res) => { //id - cart_id
+
+
+// ----------------------------------------------------------------------------------
+
+
+//order placing
+CartRouter.post('/placeorder', checkAuth, async (req, res) => {
 
     try {
 
-        const cart_id = req.params.id;
+        const orders = await cartModel.find({ loginId: req.userData.loginId }); //array
+        console.log('orderdata', orders);
 
-        const cartdata = await cartModel.aggregate([
+        for (i = 0; i < orders.length; i++) {
 
-            {
+            const orderData = {
 
-                '$lookup': {
-                    'from': 'product_tbs',
-                    'localField': 'productId',
-                    'foreignField': '_id',
-                    'as': 'product_details'
-                }
-
-            },
-
-            {
-                '$unwind': '$product_details'
-            },
-
-            {
-                '$match': {
-                    '_id': new mongoose.Types.ObjectId(cart_id)
-                }
-            },
-
-            {
-                '$group': {
-
-                    '_id': '$_id',
-                    'quantity': { '$first': '$quantity' },
-                    'loginId': { '$first': '$loginId' },
-                    'productId': { '$first': '$productId' },
-                    'productname': { '$first': '$product_details.productname' },
-                    'productprice': { '$first': '$product_details.productprice' },
-                }
+                productId: orders[i].productId,
+                quantity: orders[i].quantity,
+                loginId: orders[i].loginId,
+                // orderDate: new Date(),
+                // status: "pending"
             }
+            console.log(orderData);
 
-        ])
-        console.log(cartdata);
+            const orderPlacing = await orderModel(orderData).save();
+            console.log('orderPlacing', orderPlacing);
+        }
 
-        if (cartdata) {
+        if (orderPlacing) {
+            const deleteCart = await cartModel.deleteMany({ loginId: req.userData.loginId });
+            console.log('deleteCart', deleteCart);
 
-
-            const price = parseInt(cartdata[0].productprice) * parseInt(cartdata[0].quantity);
-            console.log('price', price);
-
-            const updateProduct = await cartModel.updateOne({ _id: cart_id }, { $set: { productprice: price } });
-            console.log('updated Product Info', updateProduct);
-
-            if (updateProduct.modifiedCount == 1) {
-                res.status(200).json({ success: true, error: false, message: "product price", price: price });
-            }
-
-            else {
-                res.status(500).json({ success: true, error: false, message: "product price not updated" });
-            }
-
+            res.status(200).json({ success: true, error: false, message: "order placed successfully" });
         }
         else {
-            return res.status(500).json({ success: true, error: false, message: "cart items not found" });
+            res.status(500).json({ success: true, error: false, message: "order not placed" });
         }
+
+
     }
     catch (error) {
-        return res.status(400).json({ success: false, error: true, message: "something went wrong in updating product price" });
+        return res.status(400).json({ success: false, error: true, message: "something went wrong in placing order" });
     }
+
 })
 
 
-//total price
-// CartRouter.get("/totalprice", async (req, res) => {
 
-
-// })
 
 
 module.exports = CartRouter;

@@ -17,3 +17,19 @@
 margin-right: 20px;
 color: rgb(255, 255, 255);
 }
+
+#yourorders{
+    color: white;
+    cursor: pointer;
+}
+
+#yourorders:hover{
+    color: rgb(255, 255, 255);
+    text-decoration: none
+}
+
+#arrow{
+    position: relative;
+    bottom: 30px;
+    left : 120px;
+}

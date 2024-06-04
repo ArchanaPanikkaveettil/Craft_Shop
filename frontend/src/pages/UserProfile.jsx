@@ -76,25 +76,9 @@ export default function UserProfile() {
                                                     <h6>Address</h6>
                                                     <p class="text_muted">{UserDetails?.address}</p>
                                                 </div>
-
                                             </div>
 
-                                            {/* <h6>Projects</h6>
-                                            <hr class="mt-0 mb-4" />
 
-                                            <div class="row pt-1">
-
-                                                <div class="col-6 mb-3">
-                                                    <h6>Recent</h6>
-                                                    <p class="text_muted">Lorem ipsum</p>
-                                                </div>
-
-                                                <div class="col-6 mb-3">
-                                                    <h6>Most Viewed</h6>
-                                                    <p class="text_muted">Dolor sit amet</p>
-                                                </div>
-
-                                            </div> */}
 
                                             <div class="d-flex justify-content-start">
                                                 <a id='social_media' href="#!"><i class="fab fa-facebook-f fa-lg me-3"></i></a>
@@ -102,6 +86,15 @@ export default function UserProfile() {
                                                 <a id='social_media' href="#!"><i class="fab fa-instagram fa-lg"></i></a>
                                             </div>
 
+                                            <br />
+                                            <hr class="mt-0 mb-4" />
+
+                                            <div>
+                                                <a href='/orders' id='yourorders' style={{ textDecoration: 'none' }}>
+                                                    <h5 >Your Orders </h5>
+                                                    <i id='arrow' class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

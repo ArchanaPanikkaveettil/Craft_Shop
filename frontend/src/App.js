@@ -20,6 +20,8 @@ import EditSubcategory from './pages/EditSubcategory';
 import UserProfile from './pages/UserProfile';
 import Cart from './pages/Cart';
 import Orders from './pages/Orders';
+import Payment from './pages/Payment';
+import OrderInfo from './pages/OrderInfo';
 
 function App() {
   return (
@@ -50,7 +52,11 @@ function App() {
           <Route path='/editsubcategory/:id' element={<EditSubcategory />} />
           <Route path='/userprofile/:id' element={<UserProfile />} />
           <Route path='/cart/:id' element={<Cart />} />
+          <Route path='/orderinfo' element={<OrderInfo />} />
+
+
           <Route path='/Orders' element={<Orders />} />
+          <Route path='/payment' element={<Payment />} />
 
 
 

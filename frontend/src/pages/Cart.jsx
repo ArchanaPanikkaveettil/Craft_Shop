@@ -102,9 +102,9 @@ export default function Cart() {
             })
     }
 
-    const Pay = () => {
-        // window.location.href = "/payment"
-        alert("Payment Successfull")
+    const Confirm = () => {
+        window.location.href = "/orderinfo"
+        alert("Order Placed")
         Clear();
     }
 
@@ -156,7 +156,7 @@ export default function Cart() {
                             <i class="fa fa-inr" aria-hidden="true" style={{ position: 'relative', top: '2px', left: '5px' }} />
                         </h3>
                         <button type='button' id='clearbtn' onClick={Clear} >Clear</button>
-                        <button type='button' id='paybtn' onClick={Pay}>Pay</button>
+                        <button type='button' id='paybtn' onClick={Confirm}>Confirm</button>
                     </div>
 
                 )}
