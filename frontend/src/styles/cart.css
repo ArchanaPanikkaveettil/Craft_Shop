@@ -4,7 +4,7 @@
     background-position: center;
     /* background-attachment:fixed; */
     width: 100%;
-    height: 800px;
+    min-height: 800px;
     margin: 0;
     padding: 100px 0;
     font-family: "Josefin Sans", sans-serif;
@@ -60,10 +60,12 @@
 
 .increment {
     margin-right: 35px;
+    cursor: pointer;
 }
 
 .decrement {
     margin-left: 35px;
+    cursor: pointer;
 }
 
 .remove {
@@ -90,4 +92,38 @@
     position: relative;
     display: flex;
     justify-content: right;
+}
+
+#paybtn{
+    position: relative;
+    left: 570px;
+    top: 3px ;
+    border-radius: 90px;
+    border: 0;
+    width: 130px;
+    height: 50px;
+    font-size: 23px;
+    color: white;
+    background-color: #09452a;
+}
+
+#paybtn:hover{
+    background-color: white;
+    color: #09452a;
+}
+
+#clearbtn{
+    position: relative;
+    border-radius: 90px;
+    border: 0;
+    width: 100px;
+    height: 50px;
+    font-size: 23px;
+    color:#09452a;
+    background-color: white;
+}
+
+#clearbtn:hover{
+    background-color: #09452a;
+    color: white;
 }

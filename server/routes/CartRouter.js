@@ -94,7 +94,7 @@ CartRouter.get('/getcartitems', checkAuth, async (req, res) => {
             for (i = 0; i < cartdata.length; i++) {
 
                 const total = cartdata[i].productprice * cartdata[i].quantity;
-                console.log('prise total', total);
+                console.log('price total', total);
                 cartdata[i].total = total;
                 grandtotal = grandtotal + total;
             }
@@ -159,6 +159,7 @@ CartRouter.put('/increment/:id', checkAuth, async (req, res) => { //id - cart_id
     try {
 
         cart_id = req.params.id;
+        console.log(cart_id);
 
         const productInfo = await cartModel.findOne({ _id: cart_id });
         console.log(productInfo);
