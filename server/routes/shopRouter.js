@@ -176,6 +176,7 @@ shopRouter.post('/addproductcategory', async (req, res) => {
 
         //duplication check
         const existingCategory = await CategoryModel.findOne({ categoryname: req.body.categoryname });
+        
         if (existingCategory) {
 
             return res.status(200).json({ success: true, error: false, message: "Product category already exists" });
@@ -184,7 +185,7 @@ shopRouter.post('/addproductcategory', async (req, res) => {
         //create new category
         const Category = { categoryname: req.body.categoryname, categorydescription: req.body.categorydescription};
         const addCategory = await CategoryModel(Category).save();
-        console.log(addCategory);
+        console.log('addCategory',addCategory);
 
         if (addCategory) {
 
