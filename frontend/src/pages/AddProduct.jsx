@@ -6,6 +6,8 @@ import axios from 'axios';
 
 export default function AddProduct() {
 
+    const [file, setFile] = useState('');//1.state to keep details(file name, size, path) of uploaded file
+
     //form data
     const [productInput, setProductInput] = useState({
 
@@ -15,7 +17,7 @@ export default function AddProduct() {
         productquantity: '',
         quantitytype: '',
         subcategory: '',
-        productimage: '',
+        productimage: '', //2.key to store image file name
 
         // productcategory initial value is not set - to do conditional rendering
         //it will be set when user selects category from dropdown
@@ -81,7 +83,30 @@ export default function AddProduct() {
 
         if (Object.keys(formError).length == 0) {
 
-            axios.post('https://craft-shop-ftlg.onrender.com/shop/addproduct', productInput).then((res) => {
+            //we have 2 objects - one which have file details - other which have form inputs/data
+            //3.  pass data, from both object to an api => convert to formdata method
+
+            const Data = new FormData(); //4.  create a formdata object
+
+            const filename = file.name; //5.  get file name
+
+            //to add data to formdata-->data.append
+
+            //6.  pass image data to formdata
+            Data.append('name', filename);  //file name
+            Data.append('file', file);     //file object
+
+            //7.  pass form data to api
+            Data.append('productname', productInput.productname);
+            Data.append('productprice', productInput.productprice);
+            Data.append('productdescription', productInput.productdescription);
+            Data.append('productcategory', productInput.productcategory);
+            Data.append('subcategory', productInput.subcategory);
+            Data.append('productquantity', productInput.productquantity);
+
+
+            //8.  pass Data to api instead of productInput
+            axios.post('https://craft-shop-ftlg.onrender.com/shop/addproduct', Data).then((res) => {
                 console.log('Product Added Details', res.data);
                 alert(res.data.message);
             }).catch((err) => {

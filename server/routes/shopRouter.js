@@ -2,6 +2,26 @@ const express = require('express');
 const shopRouter = express.Router();
 const mongoose = require('mongoose');
 
+const multer = require('multer');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+    cloud_name: "dzdf31bfs",
+    api_key: "719797422635876",
+    api_secret: "MjDBsuH0NXwxbAP84VaafJjtojc",
+});
+
+const storage = new CloudinaryStorage({ //creating folder in cloudnary 
+    cloudinary: cloudinary,
+    params: {
+        folder: "craftshopimages",
+    },
+});
+
+const uploadImage = multer({ storage: storage }); //middleware
+
+
 //models
 const productModel = require('../models/productModel');
 const CategoryModel = require('../models/CategoryModel');
@@ -17,11 +37,22 @@ const checkAuth = require('../middlewares/checkAuth');
 ///////////////////
 //---------------------addproducts------------------------
 
-shopRouter.post('/addproduct', async (req, res) => {
+//multiple image - array, or single
+shopRouter.post('/addproduct', uploadImage.array('image', 1), async (req, res) => {
 
     try {
 
-        let product = { shop_id: new mongoose.Types.ObjectId(req.body.shop_id), productname: req.body.productname, productprice: req.body.productprice, productdescription: req.body.productdescription, productcategory: req.body.productcategory, subcategory: req.body.subcategory, productimage: req.body.productimage, productquantity: req.body.productquantity, quantitytype: req.body.quantitytype, };
+        let product = {
+            shop_id: new mongoose.Types.ObjectId(req.body.shop_id),
+            productname: req.body.productname,
+            productprice: req.body.productprice,
+            productdescription: req.body.productdescription,
+            productcategory: req.body.productcategory,
+            subcategory: req.body.subcategory,
+            productimage: req.files ? req.files.map((file) => file.path) : null, //array||single - req.files.path
+            productquantity: req.body.productquantity,
+            quantitytype: req.body.quantitytype,
+        };
         console.log(product);
         let productData = await productModel(product).save();
 
@@ -176,16 +207,16 @@ shopRouter.post('/addproductcategory', async (req, res) => {
 
         //duplication check
         const existingCategory = await CategoryModel.findOne({ categoryname: req.body.categoryname });
-        
+
         if (existingCategory) {
 
             return res.status(200).json({ success: true, error: false, message: "Product category already exists" });
         }
 
         //create new category
-        const Category = { categoryname: req.body.categoryname, categorydescription: req.body.categorydescription};
+        const Category = { categoryname: req.body.categoryname, categorydescription: req.body.categorydescription };
         const addCategory = await CategoryModel(Category).save();
-        console.log('addCategory',addCategory);
+        console.log('addCategory', addCategory);
 
         if (addCategory) {
 
