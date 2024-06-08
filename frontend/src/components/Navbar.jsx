@@ -110,12 +110,9 @@ export default function Navbar() {
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav">
 
-
                                 <li class="nav-item active">
                                     <a class="nav-link" href="/home">Home</a>
                                 </li>
-
-
 
                                 <div class="dropdown">
                                     <a class="btn dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown">Categories</a>
@@ -128,16 +125,15 @@ export default function Navbar() {
 
                                 </div>
 
-
-
                                 <li class="nav-item active">
                                     <a class="nav-link" href="/shop">Your Shop</a>
                                 </li>
 
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="/shoporderview">Orders</a>
+                                </li>
 
                                 <button type="button" class="btn" id='loginbutton' onClick={logout}>Logout</button>
-
-
 
                             </ul>
                         </div>

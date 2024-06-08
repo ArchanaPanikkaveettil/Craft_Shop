@@ -103,9 +103,18 @@ export default function Cart() {
     }
 
     const Confirm = () => {
-        window.location.href = "/orderinfo"
-        alert("Order Placed")
-        Clear();
+        
+        axios.post('http://localhost:3000/cart/placeorder', {}, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(res => {
+            console.log(res.data)
+            alert(res.data.message)
+            window.location.href = "/orderinfo"
+        }).catch(err => {
+            console.log(err)
+        })
     }
 
     return (

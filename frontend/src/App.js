@@ -1,4 +1,8 @@
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+
+
+
 
 import Home from './pages/Home';
 import Navbar from './components/Navbar';
@@ -19,9 +23,9 @@ import EditCategory from './pages/EditCategory';
 import EditSubcategory from './pages/EditSubcategory';
 import UserProfile from './pages/UserProfile';
 import Cart from './pages/Cart';
-import Orders from './pages/Orders';
 import Payment from './pages/Payment';
 import OrderInfo from './pages/OrderInfo';
+import ShopOrdersView from './pages/ShopOrdersView';
 
 function App() {
   return (
@@ -53,10 +57,8 @@ function App() {
           <Route path='/userprofile/:id' element={<UserProfile />} />
           <Route path='/cart/:id' element={<Cart />} />
           <Route path='/orderinfo' element={<OrderInfo />} />
-
-
-          <Route path='/Orders' element={<Orders />} />
           <Route path='/payment' element={<Payment />} />
+          <Route path='/shoporderview' element={<ShopOrdersView />} />
 
 
 
@@ -68,5 +70,6 @@ function App() {
     </>
   );
 }
+
 
 export default App;

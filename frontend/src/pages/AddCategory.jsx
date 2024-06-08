@@ -9,7 +9,7 @@ export default function AddCategory() {
     const [categoryInput, setCategoryInput] = useState({
         categoryname: '',
         categorydescription: '',
-        categoryimage: ''
+        
     })
     console.log(categoryInput);
 
@@ -38,10 +38,6 @@ export default function AddCategory() {
             error.categorydescription = "! Category Description is required";
         }
 
-        if (!data.categoryimage) {
-            error.categoryimage = "! Category Image is required";
-        }
-
         return error;
 
     }
@@ -56,7 +52,6 @@ export default function AddCategory() {
             axios.post('https://craft-shop-ftlg.onrender.com/shop/addproductcategory', categoryInput).then(res => {
                 console.log('Added category details', res.data.CategoryDetails);
                 alert(res.data.message);
-
 
             }).catch((err) => {
                 console.log(err);
@@ -83,13 +78,6 @@ export default function AddCategory() {
                     <div class="form-group">
                         <span class='Errorspan' style={{ color: errors.categorydescription ? "red" : "", }}>{errors.categorydescription}</span>
                         <input type="text" class="form-control item" id="categorydescription" name="categorydescription" placeholder="Category Description" onChange={categoryInputChange} onClick={() => { setErrors({ ...errors, categorydescription: "" }) }} />
-                    </div>
-
-
-                    <div id='selectimage' class="form-group">
-                        <label id='categoryimage' for="formFile" class="form-label">category Image</label>
-                        <input class="form-control" name="categoryimage" type="file" id="formFile" onChange={categoryInputChange} onClick={() => { setErrors({ ...errors, categoryimage: "" }) }} />
-                        <span class='Errorspan' style={{ color: errors.categoryimage ? "red" : "", }}>{errors.categoryimage}</span>
                     </div>
 
 

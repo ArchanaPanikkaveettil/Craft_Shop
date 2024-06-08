@@ -3,6 +3,7 @@ const CartRouter = express.Router();
 
 const mongoose = require('mongoose');
 const cartModel = require('../models/CartModel');
+const OrderModel = require('../models/OrderModel');
 const checkAuth = require('../middlewares/checkAuth');
 
 
@@ -28,11 +29,11 @@ CartRouter.post('/addtocart', checkAuth, async (req, res) => {
 
         if (result) {
 
-            res.status(201).json({ success: true, error: false, message: "Product Added to cart", details: result });
+            return res.status(201).json({ success: true, error: false, message: "Product Added to cart", details: result });
         }
         else {
 
-            res.status(400).json({ success: false, error: true, message: "Product not added to cart" });
+            return res.status(400).json({ success: false, error: true, message: "Product not added to cart" });
         }
 
     }
@@ -100,7 +101,7 @@ CartRouter.get('/getcartitems', checkAuth, async (req, res) => {
                 grandtotal = grandtotal + total; //grandtotal
             }
 
-            res.status(200).json({ success: true, error: false, message: "cart items", grandtotal: grandtotal, details: cartdata });
+            return res.status(200).json({ success: true, error: false, message: "cart items", grandtotal: grandtotal, details: cartdata });
         }
         else {
             return res.status(500).json({ success: true, error: false, message: "cart items not found" });
@@ -121,10 +122,10 @@ CartRouter.delete('/deletecartitem/:id', checkAuth, async (req, res) => { //id -
 
         if (deleteItem.deletedCount == 1) {
 
-            res.status(200).json({ success: true, error: false, message: "cart item deleted" });
+            return res.status(200).json({ success: true, error: false, message: "cart item deleted" });
         }
         else {
-            res.status(500).json({ success: true, error: false, message: "cart item not deleted" });
+            return res.status(500).json({ success: true, error: false, message: "cart item not deleted" });
         }
     }
     catch (error) {
@@ -229,7 +230,7 @@ CartRouter.post('/placeorder', checkAuth, async (req, res) => {
     try {
 
         const orders = await cartModel.find({ loginId: req.userData.loginId }); //array
-        console.log('orderdata', orders);
+        console.log('cart data', orders);
 
         for (i = 0; i < orders.length; i++) {
 
@@ -239,25 +240,24 @@ CartRouter.post('/placeorder', checkAuth, async (req, res) => {
                 quantity: orders[i].quantity,
                 loginId: orders[i].loginId,
                 // orderDate: new Date(),
-                // status: "pending"
+                orderStatus: "pending"
             }
-            console.log(orderData);
+            console.log('order data', orderData);
 
-            const orderPlacing = await orderModel(orderData).save();
+
+            const orderPlacing = await OrderModel(orderData).save();
             console.log('orderPlacing', orderPlacing);
+
+            if (orderPlacing) {
+
+                const deleteCart = await cartModel.deleteMany({ loginId: req.userData.loginId });
+                console.log('deleteCart', deleteCart);
+            }
         }
 
-        if (orderPlacing) {
-            const deleteCart = await cartModel.deleteMany({ loginId: req.userData.loginId });
-            console.log('deleteCart', deleteCart);
-
-            res.status(200).json({ success: true, error: false, message: "order placed successfully" });
-        }
-        else {
-            res.status(500).json({ success: true, error: false, message: "order not placed" });
-        }
-
-
+        
+        return res.status(200).json({ success: true, error: false, message: "order placed successfully"});
+        
     }
     catch (error) {
         return res.status(400).json({ success: false, error: true, message: "something went wrong in placing order" });
@@ -265,6 +265,88 @@ CartRouter.post('/placeorder', checkAuth, async (req, res) => {
 
 })
 
+
+//placed order details
+CartRouter.get('/orderdetails', checkAuth, async (req, res) => {
+
+    try {
+
+
+        //aggregation
+        const orderDetails = await OrderModel.aggregate([
+
+            {
+                '$lookup': {
+                    'from': 'user_reg_tbs',
+                    'localField': 'loginId',
+                    'foreignField': 'loginId',
+                    'as': 'UserData'
+                }
+            },
+            {
+                '$lookup': {
+                    'from': 'product_tbs',
+                    'localField': 'productId',
+                    'foreignField': '_id',
+                    'as': 'ProductData'
+                }
+            },
+            {
+                '$unwind': '$UserData'
+            },
+            {
+                '$unwind': '$ProductData'
+            },
+            // {
+            //     '$match': {
+            //         'loginId': new mongoose.Types.ObjectId(req.userData.loginId)
+            //     }
+            // },
+            {
+                '$group': {
+                    '_id': '$_id',
+                    'productId': { '$first': '$productId' },
+                    'Productquantity': { '$first': '$quantity' },
+                    'UserloginId': { '$first': '$loginId' },
+                    'Username': { '$first': '$UserData.name' },
+                    'Useremail': { '$first': '$UserData.email' },
+                    'Usermobile': { '$first': '$UserData.phone' },
+                    'Useraddress': { '$first': '$UserData.address' },
+                    'productName': { '$first': '$ProductData.productname' },
+                    'productprice': { '$first': '$ProductData.productprice' },
+                    'productImage': { '$first': '$ProductData.productimage' },
+
+                }
+            }
+
+        ])
+        console.log('orderDetails', orderDetails);
+
+        //price calculation
+        if (orderDetails) {
+
+            let grandtotal = 0;
+            for (i = 0; i < orderDetails.length; i++) {
+
+                const productprice = orderDetails[i].productprice * orderDetails[i].Productquantity; //price according to quantity
+                console.log('price total', productprice);
+                orderDetails[i].productprice = productprice;  //replacing total in orderDetails 
+
+                grandtotal = grandtotal + productprice; //grandtotal
+                console.log('grandtotal',grandtotal);
+            }
+            return res.status(200).json({ success: true, error: false, message: "order details", orderDetails: orderDetails, grandtotal: grandtotal });
+        }
+
+        else {
+            return res.status(500).json({ success: true, error: false, message: "order details not found" });
+        }
+
+    }
+    catch (error) {
+        return res.status(500).json({ success: false, error: true, message: "something went wrong in viewing order details" });
+    }
+})
 
 
 

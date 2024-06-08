@@ -80,7 +80,7 @@ export default function Login() {
 
     //form validation for signup
     const [formError, setFormError] = useState({}); //usestate for storing error message
-    console.log(formError);
+    console.log('form error',formError);
 
 
     const formValidation = (data) => {
@@ -170,7 +170,7 @@ export default function Login() {
         password: '',
 
     })
-    console.log(loginInput);
+    console.log('loginInput',loginInput);
 
 
     //uploading values to coressponding keys
@@ -185,7 +185,7 @@ export default function Login() {
         username: '',
         password: '',
     });
-    console.log(loginError);
+    console.log('loginError',loginError);
 
     const loginValidation = (data) => {
 
@@ -226,9 +226,10 @@ export default function Login() {
 
     useEffect(() => {
         if (Object.keys(loginError).length == 0) { //if the loginError usestate is empty ie; no error message
-
+            console.log('outside axios');
             axios.post('https://craft-shop-ftlg.onrender.com/login', loginInput).then((response) => {
-
+                
+            console.log('Inside axios');
                 console.log('login response', response.data);
                 alert(response.data.message);
 

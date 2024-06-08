@@ -1,0 +1,31 @@
+#paymentpage {
+    background: url(/public/images/walpapper4.jpg);
+    background-size: cover;
+    background-position: center;
+    /* background-attachment:fixed; */
+    width: 100%;
+    min-height: 700px;
+    margin: 0;
+    padding: 100px 0;
+    font-family: "Josefin Sans", sans-serif;
+}
+
+
+#paymentsub {
+
+    /* background-color: #ffffff74; */
+    background-color: #3a38384f;
+    max-width: 750px;
+    margin: auto;
+    padding: 30px 70px;
+    border-radius: 20px;
+    height: auto;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.075);
+    color: white;
+    /* text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.546); */
+}
+
+#payamount{
+    position: relative;
+    left: 500px;
+}

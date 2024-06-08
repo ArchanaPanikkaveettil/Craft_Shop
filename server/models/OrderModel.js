@@ -7,7 +7,7 @@ const orderSchema = new Schema({
     loginId: { type: Schema.Types.ObjectId, ref: 'user_reg_tb' },
     quantity: { type: String, required: true },
     // orderDate: { type: Date, default: Date.now() },
-    // orderStatus: { type: String, required: true },
+    orderStatus: { type: String, required: true },
 
 })
 

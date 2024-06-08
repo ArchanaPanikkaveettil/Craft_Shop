@@ -6,10 +6,10 @@ const mongoose = require('mongoose');
 const productModel = require('../models/productModel');
 const CategoryModel = require('../models/CategoryModel');
 const SubCategoryModel = require('../models/SubCategoryModel');
-
+const OrderModel = require('../models/OrderModel');
+const checkAuth = require('../middlewares/checkAuth');
 
 //routes
-
 
 
 ///////////////////
@@ -38,7 +38,6 @@ shopRouter.post('/addproduct', async (req, res) => {
 })
 
 // ------------------------ view all products------------------------
-
 
 shopRouter.get('/productdetails', async (req, res) => {
 
@@ -108,10 +107,6 @@ shopRouter.get('/subcatallproducts/:name', async (req, res) => {
     }
 })
 
-
-
-
-
 // ---------------------- Update/Edit Product---------------------------------
 
 shopRouter.put('/updateproduct/:id', async (req, res) => {
@@ -170,8 +165,6 @@ shopRouter.delete('/deleteproduct/:id', async (req, res) => {
 })
 
 
-
-
 ///////////////////
 // category routes
 ///////////////////
@@ -189,7 +182,7 @@ shopRouter.post('/addproductcategory', async (req, res) => {
         }
 
         //create new category
-        const Category = { categoryname: req.body.categoryname, categorydescription: req.body.categorydescription, categoryimage: req.body.categoryimage };
+        const Category = { categoryname: req.body.categoryname, categorydescription: req.body.categorydescription};
         const addCategory = await CategoryModel(Category).save();
         console.log(addCategory);
 
@@ -262,7 +255,6 @@ shopRouter.put('/updatecategory/:id', async (req, res) => {
 
             categoryname: req.body.categoryname,
             categorydescription: req.body.categorydescription,
-            categoryimage: req.body.categoryimage
 
         }; console.log(newData);
 
@@ -308,12 +300,9 @@ shopRouter.delete('/deletecategory/:id', async (req, res) => {
 
 })
 
-
-
 ///////////////////
 // sub category routes
 ///////////////////
-
 
 // ----------------------------Add a sub category--------------------------------------------------
 
@@ -375,7 +364,7 @@ shopRouter.get('/subcategories', async (req, res) => {
 shopRouter.get('/subcategories/:id', async (req, res) => {
 
     console.log(req.params.id);
-    
+
     try {
 
         const specificSubCategory = await SubCategoryModel.findOne({ _id: req.params.id });
@@ -393,8 +382,6 @@ shopRouter.get('/subcategories/:id', async (req, res) => {
         return res.status(500).json({ success: false, error: true, message: "Something went wrong in viewing specific sub category", error: error });
     }
 })
-
-
 
 // ----------------------------View all sub category of specific main category--------------------------------------------------
 
@@ -418,9 +405,7 @@ shopRouter.get('/subcategoryof/:id', async (req, res) => {
 
 })
 
-
 //-------------------------- Update category --------------------------------------------------------------
-
 
 shopRouter.put('/updatesubcategory/:id', async (req, res) => {
 
@@ -478,5 +463,129 @@ shopRouter.delete('/deletesubcategory/:id', async (req, res) => {
 })
 
 
+////////Orders//////////////
+
+
+//-------------------------- View user who ordered --------------------------------------------------------------
+
+shopRouter.get('/viewusersorders', checkAuth, async (req, res) => {
+
+    try {
+
+        const orders = await OrderModel.aggregate([
+
+            {
+                '$lookup': {
+                    'from': 'user_reg_tbs',
+                    'localField': 'loginId',
+                    'foreignField': 'loginId',
+                    'as': 'UserInfo'
+                }
+            },
+            {
+                '$lookup': {
+                    'from': 'product_tbs',
+                    'localField': 'productId',
+                    'foreignField': '_id',
+                    'as': 'ProductInfo'
+                }
+            },
+            {
+                '$unwind': '$UserInfo'
+            },
+            {
+                '$unwind': '$ProductInfo'
+            },
+            // {
+            //     '$match': {
+            //         'orderStatus': 'paymentdone'
+            //     }
+            // },
+
+            {
+                '$group': {
+                    '_id': '$loginId',
+                    'loginId': { '$first': '$loginId' },
+                    'name': { '$first': '$UserInfo.name' },
+                    'email': { '$first': '$UserInfo.email' },
+                    'address': { '$first': '$UserInfo.address' },
+                    'phone': { '$first': '$UserInfo.phone' },
+                    'gender': { '$first': '$UserInfo.gender' }
+
+                }
+            }
+
+        ])
+
+        if (orders) {
+
+            return res.status(200).json({ success: true, error: false, message: "Orders found", orders: orders });
+        }
+        else {
+
+            return res.status(500).json({ success: true, error: false, message: "No Orders found" });
+        }
+
+    } catch (error) {
+        return res.status(500).json({ success: false, error: true, message: "Something went wrong in getting Orders", error: error });
+    }
+})
+
+// --------------------
+
+shopRouter.get('/vieworders/:id', checkAuth, async (req, res) => {//id-userId
+
+
+    try {
+        const userId = req.params.id;
+
+        const orders = await OrderModel.aggregate([
+
+            {
+                '$match': {
+                    'loginId': new mongoose.Types.ObjectId(userId)
+                }
+
+            },
+            {
+                '$lookup': {
+                    'from': 'user_reg_tbs',
+                    'localField': 'loginId',
+                    'foreignField': 'loginId',
+                    'as': 'UserInfo'
+                }
+            },
+            {
+                '$lookup': {
+                    'from': 'product_tbs',
+                    'localField': 'productId',
+                    'foreignField': '_id',
+                    'as': 'ProductInfo'
+                }
+            },
+            {
+                '$unwind': '$UserInfo'
+            },
+            {
+                '$unwind': '$ProductInfo'
+            },
+
+        ])
+
+        if (orders) {
+
+            return res.status(200).json({ success: true, error: false, message: "Orders found", orders: orders });
+        }
+        else {
+
+            return res.status(500).json({ success: true, error: false, message: "No Orders found" });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({ success: false, error: true, message: "Something went wrong in getting Orders", error: error });
+    }
+
+
+})
 
 module.exports = shopRouter;
